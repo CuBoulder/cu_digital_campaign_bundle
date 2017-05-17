@@ -1,0 +1,160 @@
+<?php
+
+/**
+ * @file
+ * Contains Drupal hooks for Tracking Pixels module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function et_beans_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "bean_admin_ui" && $api == "bean") {
+    return array("version" => "5");
+  }
+}
+
+/**
+ * Implements hook_bean_admin_ui_types().
+ */
+function et_beans_bean_admin_ui_types() {
+  $export = array();
+
+  $bean_type = new stdClass();
+  $bean_type->disabled = FALSE; /* Edit this to true to make a default bean_type disabled initially */
+  $bean_type->api_version = 5;
+  $bean_type->name = 'et_beans_bean';
+  $bean_type->label = 'Embed Template Bean';
+  $bean_type->options = '';
+  $bean_type->description = 'Bean for placing an embed template.';
+  $export['et_beans_bean'] = $bean_type;
+
+  return $export;
+}
+
+/**
+ * Submission callback for plugins that use bean renderer.
+ *
+ * @param $embed
+ * @param $operation
+ *
+ * @return null
+ */
+function et_beans_bean_form_submit($embed, $operation) {
+  switch ($operation) {
+    case 'save' :
+      // Save embed values to bean. Bean will have the same label as embed entity.
+      if ($embed->name) {
+        // Check to see if embed is new.
+        if (isset($embed->is_new) && $embed->is_new) {
+          $bean = bean_create(array(
+            'type' => 'et_beans_bean',
+            'label' => $embed->name,
+          ));
+          $bean->save();
+          return NULL;
+        }
+
+        // Load bean and save with new label if embed already exists.
+        if ($embed->id) {
+          // Need to load old bean so can modify it.
+          $old_embed = entity_load_single('embed_templates', $embed->id);
+
+          // Load potential bean..
+          $match = db_select('bean', 'tp')
+            ->fields('tp')
+            ->condition('label', $old_embed->name, '=')
+            ->condition('type', 'et_beans_bean', '=')
+            ->execute()
+            ->fetchObject();
+
+          if ($match) {
+            $bean = bean_load($match->bid);
+            $bean->label = $embed->name;
+            bean_save($bean);
+          }
+        }
+      }
+      break;
+    case 'delete' :
+      // Need to load old bean so can modify it.
+      $old_embed = entity_load_single('embed_templates', $embed->id);
+
+      // Load potential bean..
+      $match = db_select('bean', 'tp')
+        ->fields('tp')
+        ->condition('label', $old_embed->name, '=')
+        ->condition('type', 'et_beans_bean', '=')
+        ->execute()
+        ->fetchObject();
+
+      if ($match) {
+        $bean = bean_load($match->bid);
+        bean_delete($bean);
+      }
+      break;
+  }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove title field from wrapper beans.
+ */
+function et_beans_form_bean_form_alter(&$form, &$form_state, $form_id) {
+
+  if ($form['bean']['#value']->type == 'et_beans_bean') {
+    global $base_url;
+    $form['title']['#access'] = FALSE;
+    $form['label']['#disabled'] = TRUE;
+    $form['actions']['#access'] = FALSE;
+
+    $form['note'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Note'),
+      '#weight' => -99,
+    );
+
+    $form['note']['explanation'] = array(
+      '#markup' => t('Embed Template beans can only be created or edited from the <a href="' . $base_url . '/admin/content/embeds">main Embed Template administration area.</a> The sole purpose of the bean entity is for placement.'),
+    );
+  }
+}
+
+/**
+ * Implements hook_preprocess_entity().
+ */
+function et_beans_preprocess_entity(&$vars) {
+  if ($vars['elements']['#bundle'] == 'et_beans_bean') {
+
+    // Load embed to render. It will have the same name as the label of the bean.
+    $match = db_select('embed_templates', 'tp')
+      ->fields('tp')
+      ->condition('renderer', 'bean', '=')
+      ->condition('name', $vars['elements']['#entity']->label, '=')
+      ->execute()
+      ->fetchObject();
+
+    // Render content only if published.
+    if ($match && $match->status == 'published') {
+      $vars['content'] = theme('embed_templates_' . $match->type, unserialize($match->data));
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * Deletes a related embed template when a bean is deleted.
+ */
+function et_beans_entity_delete($entity, $type) {
+  if ($type == 'bean' && $entity->type == 'et_beans_bean') {
+    // Look for an embed entity with the same label.
+    $result = embed_templates_get_embeds($options = array('name' => array($entity->label)));
+
+    if ($result) {
+      entity_delete_multiple('embed_templates', array_keys($result));
+    }
+  }
+}

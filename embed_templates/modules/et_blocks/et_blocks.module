@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @file
+ * Contains Drupal hooks for Tracking Pixels module.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function et_blocks_block_info() {
+  $options = array(
+    'renderer' => array('block'),
+  );
+
+  $embeds = embed_templates_get_embeds($options);
+  $blocks = array();
+
+  foreach ($embeds as $key => $value) {
+    // Add block with type and ID of entity.
+    $blocks['et_blocks__' . $value->type . '__' . $value->id] = array(
+      'info' => t('ET Block: ' . $value->name),
+    );
+  }
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function et_blocks_block_view($delta = '') {
+  $et_blocks = et_blocks_block_info();
+
+  foreach ($et_blocks as $key => $value) {
+    if ($key === $delta) {
+      // Split up delta into type and ID of embed.
+      $type = get_string_between($delta, 'et_blocks__', '__');
+      $id = substr($delta, strlen('et_blocks__' . $type . '__'));
+
+      // Load embed to render.
+      $match = db_select('embed_templates', 'tp')
+        ->fields('tp')
+        ->condition('type', $type, '=')
+        ->condition('id', $id, '=')
+        ->execute()
+        ->fetchObject();
+
+      // Render embed if it is published.
+      if ($match && $match->status == 'published') {
+        $block['content'] = theme('embed_templates_' . $type, unserialize($match->data));
+        return $block;
+      }
+    }
+  }
+}
+
+/**
+ * Takes a string and returns values between start and end.
+ *
+ * @param $string
+ * @param $start
+ * @param $end
+ *
+ * @return string
+ */
+function get_string_between($string, $start, $end) {
+  $string = ' ' . $string;
+  $ini = strpos($string, $start);
+  if ($ini == 0) {
+    return '';
+  }
+  $ini += strlen($start);
+  $len = strpos($string, $end, $ini) - $ini;
+  return substr($string, $ini, $len);
+}

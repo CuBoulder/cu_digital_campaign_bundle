@@ -1,0 +1,14 @@
+
+user_external_invite 7.x-1.x-dev
+==================
+
+Issue #2874964 by afinnarn: Add A Changelog
+Issue #2876178 by afinnarn: Improve Links on Add Embed Screen
+Issue #2876674 by afinnarn: Place Include For Embed Form Elements At End
+Issue #2876182 by afinnarn: Refactor embed_templates_get_embeds() function
+Issue #2875042 by afinnarn: Add Search For Type, Renderer, And Path
+Issue #2876755 by afinnarn: Change status field to be an arbitrary string
+Issue #2874982 by afinnarn: Deal With Bean Deletion Through Entity API
+Issue #2876739 by afinnarn: Change The Name Of et_landing_page
+Issue #2876783 by afinnarn: Deal With 404 On Page Top/Bottom Renderer
+Issue #2876758 by afinnarn: Write Tests for Search

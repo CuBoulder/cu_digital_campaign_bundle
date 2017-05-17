@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * Contains Drupal hooks testing the Embed Templates module.
+ */
+
+/**
+ * Implements hook_embed_templates_types().
+ *
+ * @return array
+ *   List of custom embed types.
+ */
+function et_test_embed_templates_types() {
+  // Create a few initial embed types.
+  $custom_types = array();
+  $module_path = drupal_get_path('module', 'et_test');
+
+  $custom_types['et_bean'] = array(
+    'label' => 'Bean Template',
+    'form_callback' => 'et_test_form',
+    'submission_callback' => 'et_beans_bean_form_submit',
+    'renderer' => 'bean',
+    'path' => $module_path,
+    'template' => 'templates/placeholder',
+  );
+
+  $custom_types['et_block'] = array(
+    'label' => 'Block Template',
+    'form_callback' => 'et_test_form',
+    'submission_callback' => NULL,
+    'renderer' => 'block',
+    'path' => $module_path,
+    'template' => 'templates/placeholder',
+  );
+
+  $custom_types['et_unthemed_page'] = array(
+    'label' => 'Unthemed Page Template',
+    'form_callback' => 'et_unthemed_page_form',
+    'submission_callback' => NULL,
+    'renderer' => 'unthemed_page',
+    'path' => $module_path,
+    'template' => 'templates/placeholder',
+  );
+
+  return $custom_types;
+}
+
+/**
+ * Form callback to capture data for placeholder template.
+ *
+ * @param $form
+ * @param $form_state
+ * @param null $id
+ * @param array $data
+ */
+function et_test_form(&$form, &$form_state, $id = NULL, $data = array()) {
+
+  $form['embed']['path']['#access'] = FALSE;
+
+  $form['options'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Options'),
+    '#weight' => -10,
+  );
+
+  $form['options']['account_id'] = array(
+    '#title' => t('ID'),
+    '#description' => t('The ID associated with your account.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['account_id']) ? $data['account_id'] : '',
+  );
+}
+
+/**
+ * Form callback to capture data for placeholder template.
+ *
+ * @param $form
+ * @param $form_state
+ * @param null $id
+ * @param array $data
+ */
+function et_unthemed_page_form(&$form, &$form_state, $id = NULL, $data = array()) {
+
+  $form['options'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Options'),
+    '#weight' => -10,
+  );
+
+  $form['options']['account_id'] = array(
+    '#title' => t('ID'),
+    '#description' => t('The ID associated with your account.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['account_id']) ? $data['account_id'] : '',
+  );
+}

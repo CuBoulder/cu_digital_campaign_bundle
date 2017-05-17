@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Contains Drupal hooks for Tracking Pixels module.
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function et_unthemed_page_permission() {
+
+  $permissions = array(
+    'view embed unthemed pages' => array(
+      'title' => t('View Embed Unthemed Pages'),
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function et_unthemed_page_menu() {
+  $items = array();
+  $access_permission = array('view embed unthemed pages');
+
+  // Add a page/path for each published Unthemed page.
+  $embed_paths = et_unthemed_page_get_embed_paths();
+  foreach ($embed_paths as $key => $embed) {
+
+    $items[$embed->path] = array(
+      'title' => $embed->name,
+      'page callback' => 'et_unthemed_page_render',
+      'page arguments' => array($embed),
+      'access arguments' => $access_permission,
+      'type' => MENU_CALLBACK,
+    );
+  }
+
+  return $items;
+}
+
+/**
+ * Gets all embeds that use unthemed_page renderer.
+ *
+ * @return array
+ */
+function et_unthemed_page_get_embed_paths() {
+  $query_options = array(
+    'renderer' => array('unthemed_page'),
+    'status' => array('published'),
+  );
+  // Get published embed names.
+  $matches = embed_templates_get_embeds($query_options);
+  return $matches;
+}
+
+/**
+ * Callback that renders a unthemed page.
+ *
+ * @param $embed
+ */
+function et_unthemed_page_render($embed) {
+  print theme('embed_templates_' . $embed->type, unserialize($embed->data));
+  drupal_exit();
+}
