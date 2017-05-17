@@ -1,9 +1,12 @@
 name = Digital Campaign
-description = Add tracking pixels, manage A/B testing
+description = Add Embeds for approved tracking pixels
 core = 7.x
 package = CU-Digital Campaign
 
 dependencies[] = embed_templates
 dependencies[] = et_page_top_bottom
+
+optional-dependencies[] = cu_ab_test
+optional-dependencies[] = et_slate_form
 
 bundle_cache_clear = 1
