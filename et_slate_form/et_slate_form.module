@@ -32,10 +32,4 @@ function et_slate_form_options(&$form, &$form_state, $id = NULL, $data = array()
     '#required' => TRUE,
   );
 
-  $form['options']['program'] = array(
-    '#title' => t('Program'),
-    '#description' => t('The program associated with the form.'),
-    '#type' => 'textfield',
-    '#default_value' => !empty($data['program']) ? $data['program'] : '',
-  );
 }
