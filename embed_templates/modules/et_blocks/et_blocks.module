@@ -2,11 +2,14 @@
 
 /**
  * @file
- * Contains Drupal hooks for Tracking Pixels module.
+ * Contains Drupal hooks for Embed Templates - Blocks module.
  */
 
 /**
  * Implements hook_block_info().
+ *
+ * @return array
+ *   Block definition.
  */
 function et_blocks_block_info() {
   $options = array(
@@ -28,6 +31,12 @@ function et_blocks_block_info() {
 
 /**
  * Implements hook_block_view().
+ *
+ * @param string $delta
+ *   Machine name of the block.
+ *
+ * @return array
+ *   Render array for the block.
  */
 function et_blocks_block_view($delta = '') {
   $et_blocks = et_blocks_block_info();
@@ -46,8 +55,8 @@ function et_blocks_block_view($delta = '') {
         ->execute()
         ->fetchObject();
 
-      // Render embed if it is published.
-      if ($match && $match->status == 'published') {
+      // Render embed if it is published and user has access to view.
+      if ($match && $match->status == 'published' && user_access('view ' . $match->type . ' embeds')) {
         $block['content'] = theme('embed_templates_' . $type, unserialize($match->data));
         return $block;
       }
@@ -59,10 +68,14 @@ function et_blocks_block_view($delta = '') {
  * Takes a string and returns values between start and end.
  *
  * @param $string
+ *   String to manipulate
  * @param $start
+ *   Start of the characters to look for.
  * @param $end
+ *  End of the characters to look for.
  *
  * @return string
+ *   String found between those two characters.
  */
 function get_string_between($string, $start, $end) {
   $string = ' ' . $string;

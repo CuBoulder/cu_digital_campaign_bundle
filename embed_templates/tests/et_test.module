@@ -15,12 +15,14 @@ function et_test_embed_templates_types() {
   // Create a few initial embed types.
   $custom_types = array();
   $module_path = drupal_get_path('module', 'et_test');
+  $default_status = 'unpublished';
 
   $custom_types['et_bean'] = array(
     'label' => 'Bean Template',
     'form_callback' => 'et_test_form',
     'submission_callback' => 'et_beans_bean_form_submit',
     'renderer' => 'bean',
+    'default_status' => $default_status,
     'path' => $module_path,
     'template' => 'templates/placeholder',
   );
@@ -30,6 +32,7 @@ function et_test_embed_templates_types() {
     'form_callback' => 'et_test_form',
     'submission_callback' => NULL,
     'renderer' => 'block',
+    'default_status' => $default_status,
     'path' => $module_path,
     'template' => 'templates/placeholder',
   );
@@ -39,11 +42,54 @@ function et_test_embed_templates_types() {
     'form_callback' => 'et_unthemed_page_form',
     'submission_callback' => NULL,
     'renderer' => 'unthemed_page',
+    'default_status' => $default_status,
+    'path' => $module_path,
+    'template' => 'templates/placeholder',
+  );
+
+  $custom_types['no_permissions'] = array(
+    'label' => 'No Permissions',
+    'form_callback' => 'et_unthemed_page_form',
+    'submission_callback' => NULL,
+    'renderer' => 'unthemed_page',
     'path' => $module_path,
     'template' => 'templates/placeholder',
   );
 
   return $custom_types;
+}
+
+/**
+ * Implements hook_embed_templates_status().
+ *
+ * @return array
+ *   List of custom embed statuses.
+ */
+function et_test_embed_templates_status() {
+  $custom_status = array();
+
+  $custom_status['no_perms'] = array(
+    'label' => 'No permissions',
+    'operation_callback' => NULL,
+    'bulk_operation_label' => 'No Permissions For You',
+    'confirmation_label' => 'Uh Oh',
+    'add_permission' => 'no permissions',
+  );
+
+  return $custom_status;
+}
+
+/**
+ * Implements hook_permission().
+ *
+ * @return array
+ */
+function et_permission() {
+  $permissions['no permissions'] = array(
+    'title' => t('You don\'t have permissions'),
+  );
+
+  return $permissions;
 }
 
 /**
@@ -60,7 +106,7 @@ function et_test_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
   $form['options'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Options'),
+    '#title' => t('Embed Data'),
     '#weight' => -10,
   );
 
@@ -84,7 +130,7 @@ function et_unthemed_page_form(&$form, &$form_state, $id = NULL, $data = array()
 
   $form['options'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Options'),
+    '#title' => t('Embed Data'),
     '#weight' => -10,
   );
 

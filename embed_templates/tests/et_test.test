@@ -26,12 +26,18 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
    *  Perform steps to setup Drupal installation for test runs.
    */
   public function setUp() {
-    // Add the context modules to test that functionality even though it isn't
-    // a dependency.
+
     $modules = array(
+      'et_test',
+      'embed_templates',
       'context',
       'context_ui',
-      'et_test',
+      'entity',
+      'et_blocks',
+      'et_beans',
+      'et_page_top_bottom',
+      'et_unthemed_page',
+      'et_tracking_pixels',
     );
 
     parent::setUp($modules);
@@ -57,7 +63,21 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
       'administer embed templates',
       'administer blocks',
       'access bean overview',
-      'view embed unthemed pages',
+      'edit facebook embeds',
+      'view facebook embeds',
+      'edit doubleclick embeds',
+      'view doubleclick embeds',
+      'edit twitter embeds',
+      'view twitter embeds',
+      'edit et_bean embeds',
+      'view et_bean embeds',
+      'edit et_block embeds',
+      'view et_block embeds',
+      'edit et_unthemed_page embeds',
+      'view et_unthemed_page embeds',
+      'publish embeds',
+      'unpublish embeds',
+      'delete embeds',
     ));
 
     // Login user in order to edit config forms and use search.
@@ -110,6 +130,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit['path'] = 'node/1';
     $edit['account_id'] = '123456';
     $edit['action'] = 'PageAction';
+    $edit['status'] = 'published';
     $this->drupalPost('admin/content/embeds/add/facebook', $edit, t('Save'));
 
     // Go to page with tracking pixel on it.
@@ -138,6 +159,19 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $this->assertRaw('<div class="region region-page-bottom">
     <!-- Facebook Pixel Code -->
 <script>', "Facebook tracking pixel moved to bottom of page.");
+
+    // Unpublish pixel and see that it works.
+    $edit = array();
+    $edit['status'] = 'unpublished';
+    $this->drupalPost('admin/content/embeds/facebook/1/edit', $edit, t('Save'));
+
+    // Go to page with tracking pixel on it.
+    $this->drupalGet('node/1');
+
+    // Check and see it is not showing up.
+    $this->assertNoRaw('<div class="region region-page-bottom">
+    <!-- Facebook Pixel Code -->
+<script>', "Facebook tracking pixel was unpublished.");
   }
 
   /**
@@ -150,6 +184,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit['label'] = "Twitter Pixel";
     $edit['account_id'] = '123456';
     $edit['activity'] = 'PageAction';
+    $edit['status'] = 'published';
     $this->drupalPost('admin/content/embeds/add/twitter', $edit, t('Save'));
 
     // Add a context.
@@ -205,6 +240,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit['activity'] = 'PageAction';
     $edit['creation'] = '10/21/1999';
     $edit['url'] = 'http://www.example.com';
+    $edit['status'] = 'published';
     $this->drupalPost('admin/content/embeds/add/doubleclick', $edit, t('Save'));
 
     // Go to page with tracking pixel on it.
@@ -218,6 +254,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     // Unpublish pixel.
     $edit = array();
     $edit['table[0]'] = TRUE;
+    $edit['select'] = 'unpublished';
     $this->drupalPost('admin/content/embeds', $edit, t('Submit'));
 
     // Confirm unpublishing.
@@ -245,6 +282,12 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
 
     // Make sure pixel is gone.
     $this->assertNoText('DoubleClick Pixel', 'Tracking pixel has been deleted.');
+
+    // Go to page with tracking pixel on it. Should not appear.
+    $this->drupalGet('node/1');
+
+    $this->assertNoRaw('<iframe src="https://123456.fls.doubleclick.net/activityi;src=123456', "DoubleClick ID found.");
+    $this->assertNoRaw("Activity name of this tag: PageAction", "DoubleClick activity found.");
   }
 
   /**
@@ -256,6 +299,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit = array();
     $edit['label'] = 'Template Bean';
     $edit['account_id'] = '123456';
+    $edit['status'] = 'published';
     $this->drupalPost('admin/content/embeds/add/et_bean', $edit, t('Save'));
 
     // See bean on overview page.
@@ -269,7 +313,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $this->drupalPost('admin/structure/block/manage/bean/template-bean/configure', $edit, t('Save block'));
 
     // See block page.
-    ///$this->drupalGet('admin/structure/block/manage/bean/template-bean/configure');
+    //$this->drupalGet('admin/structure/block/manage/bean/template-bean/configure');
 
     // @todo Figure out why block isn't rendering. I can tell it works manually.
     //$this->drupalGet('/');
@@ -285,6 +329,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit = array();
     $edit['label'] = 'Template Block';
     $edit['account_id'] = '123456';
+    $edit['status'] = 'published';
     $this->drupalPost('admin/content/embeds/add/et_block', $edit, t('Save'));
 
     // See that the block was created.
@@ -299,6 +344,14 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
 
     $this->drupalGet('/');
     $this->assertText('Dummy Placeholder', 'Template Block rendered.');
+
+    // Unpublish pixel and see that it works.
+    $edit = array();
+    $edit['status'] = 'unpublished';
+    $this->drupalPost('admin/content/embeds/et_block/1/edit', $edit, t('Save'));
+
+    $this->drupalGet('/');
+    $this->assertNoText('Dummy Placeholder', 'Template Block unpublished.');
   }
 
   /**
@@ -311,6 +364,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit['label'] = 'A Landing Page';
     $edit['path'] = 'landing-page.html';
     $edit['account_id'] = '123456';
+    $edit['status'] = 'published';
     $this->drupalPost('admin/content/embeds/add/et_unthemed_page', $edit, t('Save'));
 
     // Need to flush caches to get new hook_menu entry to render.
@@ -330,7 +384,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     drupal_flush_all_caches();
 
     // See that the landing page returns a 404.
-    $this->drupalGet('landing-page.html');
+    $this->drupalGet('google.html');
     $this->assertResponse(404, 'Landing page not found.');
   }
 
@@ -465,5 +519,43 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $this->drupalPost('admin/content/embeds', $edit, t('Search'));
 
     $this->assertText('No results matched your search. All embeds are shown.', 'No results found.');
+  }
+
+  /**
+   * Tests permissions relating to the embed_templates module.
+   */
+  public function testPermissions() {
+
+    // See that user can't access form to add this embed type.
+    $this->drupalGet('admin/content/embeds/add/no_permissions');
+    $this->assertResponse(403, 'Denied Access to add form for embed template.');
+
+    // Create a no permissions embed.
+    $data = 'a:1:{s:10:"account_id";s:6:"123456";}';
+    $options = array(
+      'name' => 'No permissions',
+      'renderer' => 'unthemed_page',
+      'type' => 'no_permissions',
+      'path' => 'no_perms.html',
+      'status' => 'no_perms',
+      'data' => $data,
+    );
+    $this->createEmbed($options);
+
+    // Make sure user can't use the edit form either.
+    $this->drupalGet('admin/content/embeds/no_permissions/1/edit');
+    $this->assertResponse(403, 'Denied Access to edit form for embed template.');
+
+    // Make sure the no_perms status doesn't show up on add/edit form.
+    // Also make sure one permission that should show up is there.
+    $this->drupalGet('admin/content/embeds/add/et_unthemed_page');
+    $this->assertNoRaw('<option value="no_perms">No permissions</option>', "No permissions status not found on add form.");
+    $this->assertRaw('<option value="published">Published</option>', "Publish status found on add form.");
+
+    // Make sure no_perms status doesn't show up on overview form.
+    // Also make sure one permission that should show up is there.
+    $this->drupalGet('admin/content/embeds');
+    $this->assertNoRaw('<option value="no_perms">No Permissions For You</option>', "No permissions status not found on overview screen.");
+    $this->assertRaw('<option value="published">Publish Embed Codes</option>', "Publish status found on overview screen.");
   }
 }

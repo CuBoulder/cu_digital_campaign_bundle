@@ -5,6 +5,12 @@
  * Page callbacks for adding, editing, deleting, and revisions management for content.
  */
 
+/**
+ * Provides a listing of all embed types you can add.
+ *
+ * @return string
+ *   Markup for list of embed types.
+ */
 function et_add_page() {
   $item = menu_get_item();
   $content = system_admin_menu_block($item);

@@ -2,11 +2,14 @@
 
 /**
  * @file
- * Contains Drupal hooks for Tracking Pixels module.
+ * Contains Drupal hooks for Embed Templates - Beans module.
  */
 
 /**
- * Implements hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().\
+ *
+ * @return array
+ *   Version of ctools API to use.
  */
 function et_beans_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "bean_admin_ui" && $api == "bean") {
@@ -16,6 +19,9 @@ function et_beans_ctools_plugin_api($module = NULL, $api = NULL) {
 
 /**
  * Implements hook_bean_admin_ui_types().
+ *
+ * @return array
+ *   Bean definition values.
  */
 function et_beans_bean_admin_ui_types() {
   $export = array();
@@ -36,9 +42,12 @@ function et_beans_bean_admin_ui_types() {
  * Submission callback for plugins that use bean renderer.
  *
  * @param $embed
+ *   Embed being edited.
  * @param $operation
+ *   Operation being performed.
  *
  * @return null
+ *   Returns if bean is new before trying to save.
  */
 function et_beans_bean_form_submit($embed, $operation) {
   switch ($operation) {
@@ -124,6 +133,8 @@ function et_beans_form_bean_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_preprocess_entity().
+ *
+ * Adds content to the page if the bean embed exists and is published.
  */
 function et_beans_preprocess_entity(&$vars) {
   if ($vars['elements']['#bundle'] == 'et_beans_bean') {
@@ -136,8 +147,8 @@ function et_beans_preprocess_entity(&$vars) {
       ->execute()
       ->fetchObject();
 
-    // Render content only if published.
-    if ($match && $match->status == 'published') {
+    // Render content only if published and user has access to view.
+    if ($match && $match->status == 'published' && user_access('view ' . $match->type . ' embeds')) {
       $vars['content'] = theme('embed_templates_' . $match->type, unserialize($match->data));
     }
   }

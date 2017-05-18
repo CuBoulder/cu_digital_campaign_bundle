@@ -9,11 +9,12 @@ dependencies[] = et_beans
 dependencies[] = et_blocks
 dependencies[] = et_unthemed_page
 dependencies[] = et_page_top_bottom
+dependencies[] = et_tracking_pixels
 
 
-; Information added by Drupal.org packaging script on 2017-05-09
-version = "7.x-1.0-beta1"
+; Information added by Drupal.org packaging script on 2017-05-15
+version = "7.x-1.0-beta2"
 core = "7.x"
 project = "embed_templates"
-datestamp = "1494352393"
+datestamp = "1494876661"
 
