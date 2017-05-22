@@ -75,15 +75,11 @@ class et_page_top_bottom_context_reaction extends context_reaction {
   function getEmbeds() {
     $options = array();
 
-    // Get tracking pixel type names.
-    $tp_types = array_keys(et_page_top_bottom_embed_templates_types());
-
+    // Get published embed names.
     $query_options = array(
-      'types' => $tp_types,
+      'renderer' => array('page_top_bottom'),
       'status' => array('published'),
     );
-
-    // Get published embed names.
     $names = embed_templates_get_embeds($query_options);
 
     // Return names for select list.
