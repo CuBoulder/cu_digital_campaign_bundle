@@ -11,7 +11,7 @@
  * @return array
  *   List of custom embed types.
  */
-function et_page_top_bottom_embed_templates_types() {
+function et_tracking_pixels_embed_templates_types() {
   // Create a few initial embed types.
   $custom_types = array();
   $module_path = drupal_get_path('module', 'et_tracking_pixels');
