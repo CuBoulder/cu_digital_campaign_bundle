@@ -21,7 +21,7 @@ function et_blocks_block_info() {
 
   foreach ($embeds as $key => $value) {
     // Add block with type and ID of entity.
-    $blocks['et_blocks__' . $value->type . '__' . $value->id] = array(
+    $blocks['et_blocks_' . $value->id] = array(
       'info' => t('ET Block: ' . $value->name),
     );
   }
@@ -39,27 +39,30 @@ function et_blocks_block_info() {
  *   Render array for the block.
  */
 function et_blocks_block_view($delta = '') {
-  $et_blocks = et_blocks_block_info();
 
-  foreach ($et_blocks as $key => $value) {
-    if ($key === $delta) {
-      // Split up delta into type and ID of embed.
-      $type = get_string_between($delta, 'et_blocks__', '__');
-      $id = substr($delta, strlen('et_blocks__' . $type . '__'));
+  // We only care about deltas with the et_blocks prefix.
+  if (strpos($delta, 'et_blocks_') !== FALSE) {
 
-      // Load embed to render.
-      $match = db_select('embed_templates', 'tp')
-        ->fields('tp')
-        ->condition('type', $type, '=')
-        ->condition('id', $id, '=')
-        ->execute()
-        ->fetchObject();
+    // Query for the block embed entity.
+    $id = explode('et_blocks_', $delta);
 
-      // Render embed if it is published and user has access to view.
-      if ($match && $match->status == 'published' && user_access('view ' . $match->type . ' embeds')) {
-        $block['content'] = theme('embed_templates_' . $type, unserialize($match->data));
-        return $block;
-      }
+    // If ID isn't numeric, then we can't do the query and need to return.
+    if (!is_numeric($id[1])) {
+      return;
+    }
+
+    $options = array(
+      'renderer' => array('block'),
+      'id' => array($id[1]),
+    );
+    $embed = embed_templates_get_embeds($options);
+    // Embeds are keyed by ID so we need to shift off first element.
+    $match = array_shift($embed);
+
+    // Render embed if it is published and user has access to view.
+    if ($match && $match->status == 'published' && user_access('view ' . $match->type . ' embeds')) {
+      $block['content'] = theme('embed_templates_' . $match->type, unserialize($match->data));
+      return $block;
     }
   }
 }

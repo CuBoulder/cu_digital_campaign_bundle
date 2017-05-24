@@ -52,11 +52,27 @@ function et_test_embed_templates_types() {
     'form_callback' => 'et_unthemed_page_form',
     'submission_callback' => NULL,
     'renderer' => 'unthemed_page',
+    'default_status' => $default_status,
+    'path' => $module_path,
+    'template' => 'templates/placeholder',
+  );
+
+  $custom_types['alter_type'] = array(
+    'label' => 'Alter Hook Template',
+    'form_callback' => 'et_unthemed_page_form',
+    'submission_callback' => NULL,
+    'renderer' => 'unthemed_page',
+    'default_status' => $default_status,
     'path' => $module_path,
     'template' => 'templates/placeholder',
   );
 
   return $custom_types;
+}
+
+
+function et_test_embed_templates_types_alter(&$types) {
+  $types['alter_type']['label'] = 'Alter Hook Fun Time';
 }
 
 /**
@@ -71,12 +87,24 @@ function et_test_embed_templates_status() {
   $custom_status['no_perms'] = array(
     'label' => 'No permissions',
     'operation_callback' => NULL,
-    'bulk_operation_label' => 'No Permissions For You',
+    'bulk_operation_label' => 'No Permissions Test',
     'confirmation_label' => 'Uh Oh',
     'add_permission' => 'no permissions',
   );
 
+  $custom_status['alter_status'] = array(
+    'label' => 'Test Alter Hooks',
+    'operation_callback' => NULL,
+    'bulk_operation_label' => 'Alter Hooks Are Bad',
+    'confirmation_label' => 'Alter',
+    'add_permission' => NULL,
+  );
+
   return $custom_status;
+}
+
+function et_test_embed_templates_status_alter(&$statuses) {
+  $statuses['alter_status']['label'] = 'Alter Hooks Are Good';
 }
 
 /**

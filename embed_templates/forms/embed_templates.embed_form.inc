@@ -89,6 +89,11 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
     if ($value['add_permission'] != NULL && user_access($value['add_permission'])) {
       $operations[$key] = $value['label'];
     }
+
+    // Add statuses that don't require a permission.
+    if ($value['add_permission'] == NULL) {
+      $operations[$key] = $value['label'];
+    }
   }
 
   // If user doesn't have access to operations, then only include the default status.
