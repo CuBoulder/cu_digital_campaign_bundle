@@ -7,9 +7,10 @@
     }).get(0);
 
   if (typeof comment !== "undefined") {
-    var program = comment.nodeValue.split(":");
+    var options = comment.nodeValue.split(":");
+    var optionsquery = '&sys:field:' + options[0] + '=' + options[1];
   } else {
-    var program = "";
+    var optionsquery = '';
   }
-  script.async = 1; script.src = 'https://grad.apply.colorado.edu/register/?id=<?php print check_plain($variables['account_id']); ?>&output=embed&sys:field:department=' + program[1] + '&div=form_<?php print check_plain($variables['account_id']); ?>' + ((location.search.length > 1) ? '&' + location.search.substring(1) : ''); var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+  script.async = 1; script.src = 'https://<?php print check_plain($variables['slate_domain']); ?>/register/?id=<?php print check_plain($variables['account_id']); ?>&output=embed' + optionsquery + '&div=form_<?php print check_plain($variables['account_id']); ?>' + ((location.search.length > 1) ? '&' + location.search.substring(1) : ''); var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
   /*]]>*/</script>
