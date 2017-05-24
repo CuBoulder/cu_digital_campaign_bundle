@@ -2,6 +2,16 @@
 user_external_invite 7.x-1.x-dev
 ==================
 
+user_external_invite 7.x-1.x-beta3
+==================
+
+Issue #2880453 by afinnarn: Legacy Function Name Causes Context To Error
+Issue #2880913 by afinnarn: Add Alter To Hooks
+Issue #2880921 by afinnarn: Block Deltas Are Too Long In Block Renderer
+
+user_external_invite 7.x-1.x-beta2
+==================
+
 Issue #2877113 by afinnarn: Add Hook For Adding Statuses
 Issue #2877115 by afinnarn: Add More Granular Permissions
 Issue #2877412 by afinnarn: Operation Callbacks Should Only Be Passed The Embed Entity

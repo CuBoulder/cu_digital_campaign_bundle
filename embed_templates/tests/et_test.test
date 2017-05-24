@@ -75,6 +75,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
       'view et_block embeds',
       'edit et_unthemed_page embeds',
       'view et_unthemed_page embeds',
+      'edit alter_type embeds',
       'publish embeds',
       'unpublish embeds',
       'delete embeds',
@@ -316,6 +317,8 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     //$this->drupalGet('admin/structure/block/manage/bean/template-bean/configure');
 
     // @todo Figure out why block isn't rendering. I can tell it works manually.
+    // There is a permission for viewing a bean on top of the embed_templates view permission.
+    // Trying to give the test user that permission didn't seem to work.
     //$this->drupalGet('/');
     //$this->assertText('Dummy Placeholder', 'Template Bean rendered.');
   }
@@ -340,7 +343,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit = array();
     $edit['regions[bartik]'] = 'content';
     $edit['title'] = 'Template Block';
-    $this->drupalPost('admin/structure/block/manage/et_blocks/et_blocks__et_block__1/configure', $edit, t('Save block'));
+    $this->drupalPost('admin/structure/block/manage/et_blocks/et_blocks_1/configure', $edit, t('Save block'));
 
     $this->drupalGet('/');
     $this->assertText('Dummy Placeholder', 'Template Block rendered.');
@@ -558,4 +561,19 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $this->assertNoRaw('<option value="no_perms">No Permissions For You</option>', "No permissions status not found on overview screen.");
     $this->assertRaw('<option value="published">Publish Embed Codes</option>', "Publish status found on overview screen.");
   }
+
+  /**
+   * Test that alter functions work for API hooks.
+   */
+  public function testAlterHooks() {
+    // See that label of form has changed to alter hook label.
+    $this->drupalGet('admin/content/embeds/add/alter_type');
+    $this->assertText('Add Alter Hook Fun Time Embed', 'Alter hook label found.');
+    $this->assertNoText('Alter Hook Template', 'Custom type label not found.');
+
+    // See that custom status label has changed via alter hook.
+    $this->assertNoRaw('<option value="alter_status">Test Alter Hooks</option>', "Alter hook status label found.");
+    $this->assertRaw('<option value="alter_status">Alter Hooks Are Good</option>', "Custom status label not found.");
+  }
+
 }

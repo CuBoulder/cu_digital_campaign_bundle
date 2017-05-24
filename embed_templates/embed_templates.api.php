@@ -41,6 +41,17 @@ function hook_embed_templates_types() {
 }
 
 /**
+ * Allows you to alter the types array after type declarations have been gathered.
+ *
+ * @param array $types
+ *   Custom embed types declared by other modules.
+ */
+function hook_embed_templates_types_alter(&$types) {
+  $types['my_pixel']['label'] = 'A Different Label';
+}
+
+
+/**
  * Add custom statuses for embeds.
  *
  * array $custom_status
@@ -67,4 +78,14 @@ function hook_embed_templates_status() {
   );
 
   return $custom_status;
+}
+
+/**
+ * Allows you to alter the statuses array after type declarations have been gathered.
+ *
+ * @param array $statuses
+ *   Custom embed statuses declared by other modules.
+ */
+function hook_embed_templates_status_alter(&$statuses) {
+  $statuses['in_review']['add_permission'] = 'a different permission name';
 }

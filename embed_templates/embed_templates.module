@@ -260,10 +260,14 @@ function embed_templates_get_embed_types() {
   $types = array();
 
   // Add custom types other modules may have created.
-  $custom_types = module_invoke_all('embed_templates_types');
-  $types = array_merge($types, $custom_types);
+  $types = module_invoke_all('embed_templates_types');
 
-  return $types;
+  // Allow other modules to alter the final array.
+  drupal_alter('embed_templates_types', $types);
+
+  // I saw the cast in the actions_list() function, but it wasn't fully explained.
+  // they say...See module_implements() for an explanation of this cast.
+  return (array) $types;
 }
 
 /**
@@ -381,8 +385,15 @@ function embed_templates_get_form_callback($type = NULL) {
  *   List of status definitions.
  */
 function embed_templates_get_operations() {
+  $custom_statuses = array();
   $custom_statuses = module_invoke_all('embed_templates_status');
-  return $custom_statuses;
+
+  // Allow other modules to alter the final array.
+  drupal_alter('embed_templates_status', $custom_statuses);
+
+  // I saw the cast in the actions_list() function, but it wasn't fully explained.
+  // they say...See module_implements() for an explanation of this cast.
+  return (array) $custom_statuses;
 }
 
 /**
