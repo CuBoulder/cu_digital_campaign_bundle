@@ -27,7 +27,6 @@ function cu_digital_campaign_bundle_secure_permissions_roles() {
  * @return
  *   An array defining all the permissions for the site.
  */
-
 function cu_digital_campaign_bundle_secure_permissions($role) {
    $permissions = array(
     'campaign_manager' => array(
@@ -35,35 +34,61 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'delete embeds',
       'edit et_slate_form_bean embeds',
       'edit et_slate_form_block embeds',
+      'view et_slate_form_bean embeds',
+      'view et_slate_form_block embeds',
+      'view any et_beans_bean bean',
       'publish embeds',
       'unpublish embeds',
+      'delete embeds',
     ),
     'developer' => array(
       'administer embed templates',
       'delete embeds',
       'edit et_slate_form_bean embeds',
       'edit et_slate_form_block embeds',
+      'view et_slate_form_bean embeds',
+      'view et_slate_form_block embeds',
+      'view any et_beans_bean bean',
       'publish embeds',
       'unpublish embeds',
+      'delete embeds',
     ),
     'site_owner' => array(
       'administer embed templates',
       'delete embeds',
       'edit et_slate_form_bean embeds',
       'edit et_slate_form_block embeds',
+      'view et_slate_form_bean embeds',
+      'view et_slate_form_block embeds',
+      'view any et_beans_bean bean',
       'publish embeds',
       'unpublish embeds',
+      'delete embeds',
+    ),
+     'administrator' => array(
+      'administer embed templates',
+      'delete embeds',
+      'edit et_slate_form_bean embeds',
+      'edit et_slate_form_block embeds',
+      'view et_slate_form_bean embeds',
+      'view et_slate_form_block embeds',
+      'view any et_beans_bean bean',
+      'publish embeds',
+      'unpublish embeds',
+      'delete embeds',
     ),
     'anonymous user' => array(
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
+      'view any et_beans_bean bean',
     ),
     'authenticated user' => array(
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
+      'view any et_beans_bean bean',
     ),
-
   );
+
   if (isset($permissions[$role])) {
     return $permissions[$role];
   }
