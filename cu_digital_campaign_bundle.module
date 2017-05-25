@@ -28,7 +28,7 @@ function cu_digital_campaign_bundle_secure_permissions_roles() {
  *   An array defining all the permissions for the site.
  */
 function cu_digital_campaign_bundle_secure_permissions($role) {
-   $permissions = array(
+  $permissions = array(
     'campaign_manager' => array(
       'administer embed templates',
       'delete embeds',
@@ -37,6 +37,12 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
       'view any et_beans_bean bean',
+      'edit facebook embeds',
+      'view facebook embeds',
+      'edit doubleclick embeds',
+      'view doubleclick embeds',
+      'edit twitter embeds',
+      'view twitter embeds',
       'publish embeds',
       'unpublish embeds',
       'delete embeds',
@@ -49,6 +55,12 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
       'view any et_beans_bean bean',
+      'edit facebook embeds',
+      'view facebook embeds',
+      'edit doubleclick embeds',
+      'view doubleclick embeds',
+      'edit twitter embeds',
+      'view twitter embeds',
       'publish embeds',
       'unpublish embeds',
       'delete embeds',
@@ -61,11 +73,17 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
       'view any et_beans_bean bean',
+      'edit facebook embeds',
+      'view facebook embeds',
+      'edit doubleclick embeds',
+      'view doubleclick embeds',
+      'edit twitter embeds',
+      'view twitter embeds',
       'publish embeds',
       'unpublish embeds',
       'delete embeds',
     ),
-     'administrator' => array(
+    'administrator' => array(
       'administer embed templates',
       'delete embeds',
       'edit et_slate_form_bean embeds',
@@ -73,6 +91,12 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
       'view any et_beans_bean bean',
+      'edit facebook embeds',
+      'view facebook embeds',
+      'edit doubleclick embeds',
+      'view doubleclick embeds',
+      'edit twitter embeds',
+      'view twitter embeds',
       'publish embeds',
       'unpublish embeds',
       'delete embeds',
@@ -81,11 +105,17 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
       'view any et_beans_bean bean',
+      'view twitter embeds',
+      'view doubleclick embeds',
+      'view facebook embeds',
     ),
     'authenticated user' => array(
       'view et_slate_form_bean embeds',
       'view et_slate_form_block embeds',
       'view any et_beans_bean bean',
+      'view twitter embeds',
+      'view doubleclick embeds',
+      'view facebook embeds',
     ),
   );
 
