@@ -46,6 +46,10 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'publish embeds',
       'unpublish embeds',
       'delete embeds',
+      'access navbar',
+      'view the administration theme',
+      'access content overview',
+      'administer nodes',
     ),
     'developer' => array(
       'administer embed templates',
