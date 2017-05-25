@@ -1,6 +1,6 @@
 name = CU A/B Test
 core = 7.x
-package = CU-Search Engine Optimization
+package = CU-Digital Campaign
 version = 7.x-1.0
 dependencies[] = bean_admin_ui
 dependencies[] = ctools
