@@ -124,3 +124,59 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
   }
 }
 
+/**
+ * Implements hook_express_help()
+ *
+ * Add contextual help for the Advanced content like Quicktabs.
+ *
+ * @param $variables
+ *   Array with information about help hooks
+ * @return $variables
+ */
+function cu_digital_campaign_bundle_express_help($variables) {
+
+  $variables['admin/content/embeds'][] = array(
+    'title' => 'Embeds Overview Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/444',
+  );
+
+  $variables['admin/content/embeds/add/doubleclick'][] = array(
+    'title' => 'Doubleclick Embed Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/444',
+  );
+
+  $variables['admin/content/embeds/doubleclick/%/edit'][] = array(
+    'title' => 'Doubleclick Embed Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/444',
+  );
+
+  $variables['admin/content/embeds/add/twitter'][] = array(
+    'title' => 'Twitter Embed Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/444',
+  );
+
+  $variables['admin/content/embeds/add/facebook'][] = array(
+    'title' => 'Twitter Embed Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/444',
+  );
+
+  return $variables;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function cu_digital_campaign_bundle_form_embed_templates_overview_form_alter(&$form, &$form_state) {
+
+  // Remove the descriptions so that the search form renders better horizontally.
+  foreach ($form['search'] as $key => $value) {
+    if (isset($value['#description'])) {
+      unset($form['search'][$key]['#description']);
+    }
+  }
+}
