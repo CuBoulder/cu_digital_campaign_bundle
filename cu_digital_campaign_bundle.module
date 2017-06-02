@@ -138,32 +138,65 @@ function cu_digital_campaign_bundle_express_help($variables) {
   $variables['admin/content/embeds'][] = array(
     'title' => 'Embeds Overview Help',
     'short_title' => 'Embed Help',
-    'url' => '/node/444',
+    'url' => '/node/1516',
+  );
+
+  $variables['admin/content/embeds/add'][] = array(
+    'title' => 'Embeds Overview Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/1516',
   );
 
   $variables['admin/content/embeds/add/doubleclick'][] = array(
     'title' => 'Doubleclick Embed Help',
     'short_title' => 'Embed Help',
-    'url' => '/node/444',
+    'url' => '/node/1574',
   );
 
   $variables['admin/content/embeds/doubleclick/%/edit'][] = array(
     'title' => 'Doubleclick Embed Help',
     'short_title' => 'Embed Help',
-    'url' => '/node/444',
+    'url' => '/node/1574',
   );
 
   $variables['admin/content/embeds/add/twitter'][] = array(
     'title' => 'Twitter Embed Help',
     'short_title' => 'Embed Help',
-    'url' => '/node/444',
+    'url' => '/node/1574',
+  );
+
+  $variables['admin/content/embeds/twitter/%/edit'][] = array(
+    'title' => 'Twitter Embed Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/1574',
   );
 
   $variables['admin/content/embeds/add/facebook'][] = array(
-    'title' => 'Twitter Embed Help',
+    'title' => 'Facebook Embed Help',
     'short_title' => 'Embed Help',
+    'url' => '/node/1574',
+  );
+
+  $variables['admin/content/embeds/facebook/%/edit'][] = array(
+    'title' => 'Facebook Embed Help',
+    'short_title' => 'Embed Help',
+    'url' => '/node/1574',
+  );
+
+  /*
+   * Don't know what is happening with Slate Form help.
+  $variables['admin/content/embeds/add/et_slate_form_bean'][] = array(
+    'title' => 'Slate Form Embed Help',
+    'short_title' => 'Slate Help',
     'url' => '/node/444',
   );
+
+  $variables['admin/content/embeds/et_slate_form_bean/%/edit'][] = array(
+    'title' => 'Slate Form Embed Help',
+    'short_title' => 'Slate Help',
+    'url' => '/node/444',
+  );
+  */
 
   return $variables;
 }
