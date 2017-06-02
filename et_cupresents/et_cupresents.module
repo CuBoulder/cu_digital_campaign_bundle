@@ -24,18 +24,44 @@ function et_cupresents_form_options(&$form, &$form_state, $id = NULL, $data = ar
     '#weight' => -10,
   );
 
+  $form['options']['tags'] = array(
+    '#title' => t('Tags'),
+    '#description' => t('A list of comma-separated tags.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['tags']) ? $data['tags'] : '',
+  );
+
   $form['options']['series'] = array(
     '#title' => t('Series'),
-    '#description' => t('The ID of the event category you wish to display.'),
+    '#description' => t('A list of comma-separated series.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['series']) ? $data['series'] : '',
-    '#required' => TRUE,
+  );
+
+  $form['options']['venue'] = array(
+    '#title' => t('Venue'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['venue']) ? $data['venue'] : '',
+  );
+
+  $form['options']['from'] = array(
+    '#title' => t('From Date'),
+    '#description' => t('Beginning date range to search for events.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['from']) ? $data['from'] : '',
+  );
+
+  $form['options']['to'] = array(
+    '#title' => t('To Date'),
+    '#description' => t('End of date range to search for events.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['to']) ? $data['to'] : '',
   );
 
   $form['options']['include_custom'] = array(
     '#title' => t('Custom'),
-    '#description' => t('I have no idea what this means.'),
-    '#type' => 'textfield',
+    '#description' => t('Choose whether to include custom events.'),
+    '#type' => 'checkbox',
     '#default_value' => !empty($data['include_custom']) ? $data['include_custom'] : 1,
     '#required' => FALSE,
   );
@@ -64,3 +90,5 @@ function et_cupresents_embed_templates_types() {
 
   return $custom_types;
 }
+
+
