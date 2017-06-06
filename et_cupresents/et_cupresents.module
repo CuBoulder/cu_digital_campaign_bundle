@@ -58,6 +58,13 @@ function et_cupresents_form_options(&$form, &$form_state, $id = NULL, $data = ar
     '#default_value' => !empty($data['to']) ? $data['to'] : '',
   );
 
+  $form['options']['limit'] = array(
+    '#title' => t('Limit'),
+    '#description' => t('Limit the number of events displayed. Set to zero to have no limit.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['limit']) ? $data['limit'] : 0,
+  );
+
   $form['options']['include_custom'] = array(
     '#title' => t('Custom'),
     '#description' => t('Choose whether to include custom events.'),

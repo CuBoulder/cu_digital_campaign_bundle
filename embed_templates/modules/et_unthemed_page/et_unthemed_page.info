@@ -6,9 +6,9 @@ package = Embed Templates
 dependencies[] = embed_templates
 test_dependencies[] = context:context
 
-; Information added by Drupal.org packaging script on 2017-05-24
-version = "7.x-1.0-beta3"
+; Information added by Drupal.org packaging script on 2017-06-05
+version = "7.x-1.0-beta3+1-dev"
 core = "7.x"
 project = "embed_templates"
-datestamp = "1495665185"
+datestamp = "1496703251"
 

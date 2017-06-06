@@ -63,6 +63,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
       'administer embed templates',
       'administer blocks',
       'access bean overview',
+      'administer beans',
       'edit facebook embeds',
       'view facebook embeds',
       'edit doubleclick embeds',
@@ -313,18 +314,22 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit['title'] = 'Template Bean';
     $this->drupalPost('admin/structure/block/manage/bean/template-bean/configure', $edit, t('Save block'));
 
-    // See block page.
-    //$this->drupalGet('admin/structure/block/manage/bean/template-bean/configure');
+    // See that label is disabled.
+    $this->drupalGet('block/template-bean/edit');
+    $this->assertRaw('<input disabled="disabled" type="text" id="edit-label" name="label" value="Template Bean"', 'Label is disabled.');
 
-    // @todo Figure out why block isn't rendering. I can tell it works manually.
-    // There is a permission for viewing a bean on top of the embed_templates view permission.
-    // Trying to give the test user that permission didn't seem to work.
-    //$this->drupalGet('/');
-    //$this->assertText('Dummy Placeholder', 'Template Bean rendered.');
+    // See that title can be edited.
+    $edit = array();
+    $edit['title'] = 'A Bean Block';
+    $this->drupalPost('block/template-bean/edit', $edit, t('Save'));
+
+    // see that bean template is rendered.
+    $this->drupalGet('/');
+    $this->assertText('Dummy Placeholder', 'Template Bean rendered.');
   }
 
   /**
-   * Tests placement of an mebed template block.
+   * Tests placement of an embed template block.
    */
   public function testBlockRenderer() {
 
