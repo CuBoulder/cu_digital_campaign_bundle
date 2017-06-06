@@ -129,7 +129,7 @@ function et_beans_form_bean_form_alter(&$form) {
  */
 function et_beans_inline_entity_form_entity_form_alter(&$entity_form) {
   if ($entity_form['#bundle'] == 'et_beans_bean') {
-    et_beans_disable_form_elements($form);
+    et_beans_disable_form_elements($entity_form);
   }
 }
 
