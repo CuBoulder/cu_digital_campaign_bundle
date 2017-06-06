@@ -105,30 +105,52 @@ function et_beans_bean_form_submit($embed, $operation) {
   }
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  *
  * Remove title field from wrapper beans.
+ *
+ * @param array $form
+ *   The current Bean form being acted upon.
  */
-function et_beans_form_bean_form_alter(&$form, &$form_state, $form_id) {
-
-  if ($form['bean']['#value']->type == 'et_beans_bean') {
-    global $base_url;
-    $form['title']['#access'] = FALSE;
-    $form['label']['#disabled'] = TRUE;
-    $form['actions']['#access'] = FALSE;
-
-    $form['note'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Note'),
-      '#weight' => -99,
-    );
-
-    $form['note']['explanation'] = array(
-      '#markup' => t('Embed Template beans can only be created or edited from the <a href="' . $base_url . '/admin/content/embeds">main Embed Template administration area.</a> The sole purpose of the bean entity is for placement.'),
-    );
+function et_beans_form_bean_form_alter(&$form) {
+  if ($form['#bundle'] == 'et_beans_bean') {
+    et_beans_disable_form_elements($form);
   }
+}
+
+/**
+ * Implements hook_inline_entity_form_table_fields_alter().
+ *
+ * @param array $entity_form
+ *  Inline Entity Form being acted upon.
+ *
+ * @internal param $form_state
+ */
+function et_beans_inline_entity_form_entity_form_alter(&$entity_form) {
+  if ($entity_form['#bundle'] == 'et_beans_bean') {
+    et_beans_disable_form_elements($form);
+  }
+}
+
+/**
+ * Callback to disable editing labels on bean form.
+ *
+ * @param array $form
+ *   Array containing form elements.
+ */
+function et_beans_disable_form_elements(&$form) {
+  global $base_url;
+  $form['label']['#disabled'] = TRUE;
+
+  $form['note'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Note'),
+    '#weight' => -99,
+  );
+  $form['note']['explanation'] = array(
+    '#markup' => t('Embed Template beans can only be created or edited from the <a href="' . $base_url . '/admin/content/embeds">main Embed Template administration area.</a> The sole purpose of the bean entity is for placement.'),
+  );
 }
 
 /**

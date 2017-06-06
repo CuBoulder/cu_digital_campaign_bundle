@@ -37,6 +37,6 @@ foreach ($fields as $value) {
 ?>
 
 <div class="cupresents-event-block-wrapper">
-  <script src="//bridge.cupresents.org/rss/production?format=js<?php print check_plain($query_string); ?>&include_custom=<?php print check_plain($variables['include_custom']); ?>"></script>
+  <script src="//bridge.cupresents.org/rss/production?format=js<?php print check_plain($query_string); ?>&include_custom=<?php print check_plain($variables['include_custom']); ?>&limit=<?php print check_plain($variables['limit']); ?>"></script>
  </div>
 
