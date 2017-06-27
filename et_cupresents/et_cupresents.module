@@ -38,6 +38,23 @@ function et_cupresents_form_options(&$form, &$form_state, $id = NULL, $data = ar
     '#default_value' => !empty($data['series']) ? $data['series'] : '',
   );
 
+  $performance_options = array(
+    'performance' => 'Performance',
+    'preshow_talk' => 'Preshow Talk',
+    'talkback' => 'Talkback',
+    'public_class' => 'Public Class',
+    'camp' => 'Camp',
+    'master_class' => 'Master Class',
+    'public_talk' =>'Public Talk',
+  );
+
+  $form['options']['performance_type'] = array(
+    '#title' => t('Performance Type'),
+    '#type' => 'checkboxes',
+    '#options' => $performance_options,
+    '#default_value' => !empty($data['performance_type']) ? $data['performance_type'] : '',
+  );
+
   $form['options']['venue'] = array(
     '#title' => t('Venue'),
     '#type' => 'textfield',

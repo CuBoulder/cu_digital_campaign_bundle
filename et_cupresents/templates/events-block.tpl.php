@@ -26,6 +26,16 @@ if (!empty($variables['series'])) {
   $query_string .= '&filters[series][]=' . implode('&filters[series][]=', $series);
 }
 
+// Deal with performance types.
+if (!empty($variables['performance_type'])) {
+  foreach ($variables['performance_type'] as $type) {
+    if ($type) {
+    $query_string .= '&filters[type][]=' . $type;
+    }
+  }
+
+}
+
 // Build last part of query string.
 $fields = array('venue', 'from', 'to');
 
