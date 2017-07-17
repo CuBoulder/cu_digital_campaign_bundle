@@ -50,8 +50,6 @@ function et_page_top_bottom_page_alter(&$page) {
 
   // Don't do anything if page is a 404.
   if (drupal_get_http_header('status') == '404 Not Found') {
-    // Log this...because why not?
-    watchdog('embed_templates', 'Embed Template not rendered due to 404 response. Path: !page', array('!page' => current_path()));
     return;
   }
 
