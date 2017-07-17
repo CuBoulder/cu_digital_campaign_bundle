@@ -2,6 +2,7 @@
 user_external_invite 7.x-1.x-dev
 ==================
 
+Issue #2895398 by afinnarn: Don't Log 404 In Page Top/Bottom
 Issue #2881193 by afinnarn: Check Bean Edit Form On Inline Entity Forms
 
 user_external_invite 7.x-1.x-beta3
