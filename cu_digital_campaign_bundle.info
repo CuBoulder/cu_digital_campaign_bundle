@@ -4,6 +4,9 @@ core = 7.x
 package = CU-Digital Campaign
 bundle_group = beta_bundles
 
+stylesheets[all][] = css/icons.css
+stylesheets[all][] = css/search-form.css
+
 dependencies[] = embed_templates
 dependencies[] = et_tracking_pixels
 dependencies[] = et_page_top_bottom
