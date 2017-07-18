@@ -197,8 +197,7 @@ function cu_digital_campaign_bundle_express_help($variables) {
     'url' => '/node/1574',
   );
 
-  /*
-   * Don't know what is happening with Slate Form help.
+  /* Don't know what is happening with Slate Form help.
   $variables['admin/content/embeds/add/et_slate_form_bean'][] = array(
     'title' => 'Slate Form Embed Help',
     'short_title' => 'Slate Help',
@@ -213,17 +212,4 @@ function cu_digital_campaign_bundle_express_help($variables) {
   */
 
   return $variables;
-}
-
-/**
- * Implements hook_form_alter().
- */
-function cu_digital_campaign_bundle_form_embed_templates_overview_form_alter(&$form, &$form_state) {
-
-  // Remove the descriptions so that the search form renders better horizontally.
-  foreach ($form['search'] as $key => $value) {
-    if (isset($value['#description'])) {
-      unset($form['search'][$key]['#description']);
-    }
-  }
 }
