@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Enable Funnel Page module.
+ */
+function cu_digital_campaign_bundle_update_7001() {
+  module_enable(array('cu_funnel_page'));
+}
