@@ -1,5 +1,5 @@
 name = Digital Campaign
-description = Allows for Campaign Managers to perform marketing functionality on the site. 
+description = Allows for Campaign Managers to perform marketing functionality on the site.
 core = 7.x
 package = CU-Digital Campaign
 bundle_group = beta_bundles
@@ -10,6 +10,7 @@ stylesheets[all][] = css/search-form.css
 dependencies[] = embed_templates
 dependencies[] = et_tracking_pixels
 dependencies[] = et_page_top_bottom
+dependencies[] = cu_funnel_page
 
 optional-dependencies[] = cu_ab_test
 optional-dependencies[] = et_slate_form
