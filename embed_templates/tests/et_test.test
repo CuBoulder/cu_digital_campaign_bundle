@@ -323,9 +323,38 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit['title'] = 'A Bean Block';
     $this->drupalPost('block/template-bean/edit', $edit, t('Save'));
 
-    // see that bean template is rendered.
+    // See that bean template is rendered.
     $this->drupalGet('/');
     $this->assertText('Dummy Placeholder', 'Template Bean rendered.');
+
+    // See that you can change the embed template label and that the bean label changes and renders.
+    $edit = array();
+    $edit['label'] = 'Template Bean Changed';
+    $this->drupalPost('admin/content/embeds/et_bean/1/edit', $edit, t('Save'));
+
+    // See bean on overview page.
+    $this->drupalGet('admin/content/blocks');
+    $this->assertText('Template Bean Changed', 'Template Bean label changed.');
+
+    // Still rendering.
+    $this->drupalGet('/');
+    $this->assertText('Dummy Placeholder', 'Template Bean rendered.');
+
+    // See that when you delete the embed template, the bean is also deleted.
+    $edit = array();
+    $this->drupalPost('admin/content/embeds/et_bean/1/edit', $edit, t('Delete'));
+
+    // Confirm deletion.
+    $edit = array();
+    $this->drupalPost(NULL, $edit, t('Delete'));
+
+    // See that embed was deleted.
+    $this->drupalGet('admin/content/embeds');
+    $this->assertNoText('Template Bean Changed', 'Template Bean embed was deleted.');
+
+    // See that bean was deleted.
+    $this->drupalGet('admin/content/blocks');
+    $this->assertNoText('Template Bean Changed', 'Template Bean bean was deleted.');
   }
 
   /**
