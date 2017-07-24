@@ -67,20 +67,27 @@ function et_beans_bean_form_submit($embed, $operation) {
         // Load bean and save with new label if embed already exists.
         if ($embed->id) {
           // Need to load old bean so can modify it.
-          $old_embed = entity_load_single('embed_templates', $embed->id);
+          $old_embed = db_query('SELECT * FROM {embed_templates} WHERE id = :id', array(':id'=> $embed->id))->fetchAssoc();
 
-          // Load potential bean..
-          $match = db_select('bean', 'tp')
-            ->fields('tp')
-            ->condition('label', $old_embed->name, '=')
-            ->condition('type', 'et_beans_bean', '=')
-            ->execute()
-            ->fetchObject();
+          // Load potential bean.
+          if (isset($old_embed['name'])) {
+            $match = db_select('bean', 'tp')
+              ->fields('tp')
+              ->condition('label', $old_embed['name'], '=')
+              ->condition('type', 'et_beans_bean', '=')
+              ->execute()
+              ->fetchObject();
 
-          if ($match) {
-            $bean = bean_load($match->bid);
-            $bean->label = $embed->name;
-            bean_save($bean);
+            // If match save bean, otherwise send error message.
+            if ($match) {
+              $bean = bean_load($match->bid);
+              $bean->label = $embed->name;
+              bean_save($bean);
+            } else {
+              drupal_set_message('No bean found with ' . $old_embed['name'] . ' label. Associated bean was not updated.');
+            }
+          } else {
+            drupal_set_message('No embed template found with ID of ' . $embed->id . ' . Associated bean was not updated.');
           }
         }
       }
