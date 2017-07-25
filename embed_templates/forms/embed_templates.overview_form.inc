@@ -259,7 +259,6 @@ function embed_templates_embeds_table($form, $form_state) {
  *
  * @return mixed
  *   Returns form state for confirmation, returned search results, or NULL for errors.
- *
  */
 function embed_templates_overview_form_submit(&$form, &$form_state) {
   // Declare default variables. Probably a better way to do this.
@@ -362,19 +361,20 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
 
   // Otherwise, set an error message.
   drupal_set_message('Error performing bulk operation. ' . $operation . ' operation not found.', 'error');
-  watchdog('embed_templates', 'Error performing bulk operation. ' . $operation . ' operation not found.');
+  watchdog('embed_templates', 'Error performing bulk operation. :op operation not found.', array(':op' => $operation));
   return NULL;
 }
 
 /**
  * Callback for searching for embeds from overview page.
  *
- * @param $form_state
- * @param null $name
- * @param null $path
+ * @param array $form_state
+ *   Form state to store search results in.
+ * @param array $options
+ *   Options containing search terms.
  *
- * @return mixed
- * @internal param $form
+ * @return array
+ *   The form state whether any results were found.
  */
 function embed_templates_form_search(&$form_state, $options = array()) {
 

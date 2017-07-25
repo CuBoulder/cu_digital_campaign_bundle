@@ -201,11 +201,11 @@ function embed_templates_permission() {
  * @param array $existing
  *   An array of existing theme definitions.
  * @param string $type
- *   Whether a theme, module, etc. is being processed
+ *   Whether a theme, module, etc. is being processed.
  * @param string $theme
  *   Name of the thing being processed.
  * @param string $path
- *   The directory path of the theme or module
+ *   The directory path of the theme or module.
  *
  * @return array
  *   List of new theme definitions.

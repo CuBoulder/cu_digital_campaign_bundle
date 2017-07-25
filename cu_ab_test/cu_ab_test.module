@@ -142,7 +142,7 @@ function cu_ab_test_validate_percentages(array $form, array &$form_state) {
 
   // Add up all of the percentages.
   $counter = 0;
-  foreach ($form_state['values']['field_block_option'][LANGUAGE_NONE] as $key => $value) {
+  foreach ($form_state['values']['field_block_option'][LANGUAGE_NONE] as $value) {
     $counter += $value['field_percentage']['und'][0]['value'];
   }
 

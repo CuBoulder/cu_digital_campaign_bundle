@@ -71,7 +71,7 @@ function et_blocks_block_view($delta = '') {
  * Takes a string and returns values between start and end.
  *
  * @param string $string
- *   String to manipulate
+ *   String to manipulate.
  * @param int $start
  *   Start of the characters to look for.
  * @param int $end

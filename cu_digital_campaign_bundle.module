@@ -11,7 +11,7 @@
  * Create a secure_permissions_data module directory and place this function
  * in secure_permissions_data.module.
  *
- * @return
+ * @return array
  *   An array defining all the roles for the site.
  */
 function cu_digital_campaign_bundle_secure_permissions_roles() {
@@ -149,7 +149,7 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
  * Add contextual help for the Advanced content like Quicktabs.
  *
  * @param array $variables
- *   Array with information about help hooks
+ *   Array with information about help hooks.
  *
  * @return array
  *   Array with your added help hooks.
