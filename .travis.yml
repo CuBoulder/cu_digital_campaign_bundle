@@ -43,10 +43,6 @@ install:
   - travis_retry composer global require "drush/drush:6.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # Drupal.org verify tool
-  #- drush dl -y drupalorg_drush-7.x-1.x-dev --destination=$HOME/.drush
-  #- drush cc drush
-
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
@@ -63,13 +59,7 @@ install:
   - cd drupal
   - cd modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  #- drush make --yes profiles/express/drupal-org-core.make
-  #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
   - cd ../..
-
-  # Verify that all the .make files will work on Drupal.org.
-  #- drush verify-makefile drupal/profiles/express/drupal-org.make
-  #- find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
