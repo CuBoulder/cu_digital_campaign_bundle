@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Contains Drupal-related hooks for the Digital Campaign bundle.
+ */
+
+/**
  * Define site roles in code.
  *
  * Create a secure_permissions_data module directory and place this function
@@ -21,10 +26,10 @@ function cu_digital_campaign_bundle_secure_permissions_roles() {
  * Create a secure_permissions_data module directory and place this function
  * in secure_permissions_data.module.
  *
- * @param $role
+ * @param string $role
  *   The role for which the permissions are being requested.
  *
- * @return
+ * @return array
  *   An array defining all the permissions for the site.
  */
 function cu_digital_campaign_bundle_secure_permissions($role) {
@@ -143,9 +148,11 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
  *
  * Add contextual help for the Advanced content like Quicktabs.
  *
- * @param $variables
+ * @param array $variables
  *   Array with information about help hooks
- * @return $variables
+ *
+ * @return array
+ *   Array with your added help hooks.
  */
 function cu_digital_campaign_bundle_express_help($variables) {
 
@@ -196,20 +203,6 @@ function cu_digital_campaign_bundle_express_help($variables) {
     'short_title' => 'Embed Help',
     'url' => '/node/1574',
   );
-
-  /* Don't know what is happening with Slate Form help.
-  $variables['admin/content/embeds/add/et_slate_form_bean'][] = array(
-    'title' => 'Slate Form Embed Help',
-    'short_title' => 'Slate Help',
-    'url' => '/node/444',
-  );
-
-  $variables['admin/content/embeds/et_slate_form_bean/%/edit'][] = array(
-    'title' => 'Slate Form Embed Help',
-    'short_title' => 'Slate Help',
-    'url' => '/node/444',
-  );
-  */
 
   return $variables;
 }

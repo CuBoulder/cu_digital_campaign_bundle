@@ -16,7 +16,7 @@ function et_unthemed_page_menu() {
 
   // Add a page/path for each published Unthemed page.
   $embed_paths = et_unthemed_page_get_embed_paths();
-  foreach ($embed_paths as $key => $embed) {
+  foreach ($embed_paths as $embed) {
     $access_permission = 'view ' . $embed->type . ' embeds';
     $items[$embed->path] = array(
       'title' => $embed->name,
@@ -48,7 +48,7 @@ function et_unthemed_page_get_embed_paths() {
 /**
  * Callback that renders a unthemed page.
  *
- * @param $embed
+ * @param object $embed
  *   Markup of the unthemed page.
  */
 function et_unthemed_page_render($embed) {

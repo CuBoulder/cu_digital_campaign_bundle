@@ -12,8 +12,12 @@ module_load_include('inc', 'embed_templates', 'forms/embed_templates.confirm_for
  * A listing of embed codes.
  *
  * @param array $form
+ *   Empty form to be built.
  * @param array $form_state
+ *   Form state that might have embed info for confirmation steps.
+ *
  * @return array
+ *   The fully built form shown to users.
  */
 function embed_templates_overview_form($form, &$form_state) {
 
@@ -59,10 +63,13 @@ function embed_templates_overview_form($form, &$form_state) {
 /**
  * Callback to generate search part of embed overview page.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   Form that contains defaults for embed overview page.
+ * @param array $form_state
+ *   Form state that might have previous search terms.
  *
- * @return mixed
+ * @return array
+ *   Fully built search form for overview page.
  */
 function embed_templates_search_form($form, $form_state) {
   // Add search fieldset.
@@ -131,19 +138,16 @@ function embed_templates_search_form($form, $form_state) {
     '#options' => array(
       'any' => '-Any-',
       'unpublished' => 'Unpublished',
-      'published' => 'Published'
+      'published' => 'Published',
     ),
     '#default_value' => isset($form_state['storage']['search_status']) ? $form_state['storage']['search_status'] : '',
   );
-
 
   $form['search']['search'] = array(
     '#type' => 'submit',
     '#value' => t('Search'),
     '#submit' => array('embed_templates_overview_form_submit'),
   );
-
-
 
   // Add select list for choosing operations.
   $operations = embed_templates_get_operations();
@@ -173,7 +177,6 @@ function embed_templates_search_form($form, $form_state) {
       '#title' => 'Operations',
     );
 
-
     $form['operations']['select'] = array(
       '#type' => 'select',
       '#options' => $operations,
@@ -193,10 +196,13 @@ function embed_templates_search_form($form, $form_state) {
 /**
  * Callback to generate table of embeds.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   Form that contains defaults for embed overview page.
+ * @param array $form_state
+ *   Form state that will contain any embeds if they exist.
  *
- * @return mixed
+ * @return array
+ *   Fully built table of embeds for overview page.
  */
 function embed_templates_embeds_table($form, $form_state) {
   // Add table for listing embed codes.
@@ -246,10 +252,14 @@ function embed_templates_embeds_table($form, $form_state) {
 /**
  * Form submission for Embed Code overview form.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   Form passed into submit function.
+ * @param array $form_state
+ *   State of form passed in with search and bulk operations.
  *
  * @return mixed
+ *   Returns form state for confirmation, returned search results, or NULL for errors.
+ *
  */
 function embed_templates_overview_form_submit(&$form, &$form_state) {
   // Declare default variables. Probably a better way to do this.
@@ -294,7 +304,7 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
   // If no embed temlates are present, no need to try and perform any operation.
   if (!isset($form_state['embed_templates'])) {
     drupal_set_message('No embed templates selected to perform operation on.', 'error');
-    return;
+    return NULL;
   }
 
   // Perform bulk operation on entities stored in $form_state from confirmation function.
@@ -307,7 +317,7 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
     // Check for permission.
     if (!user_access('delete embeds')) {
       drupal_set_message('You do not have sufficient permissions to delete these embeds.', 'error');
-      return;
+      return NULL;
     }
 
     foreach ($form_state['embed_templates'] as $pixel) {
@@ -317,7 +327,7 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
       }
       entity_delete('embed_templates', $pixel->id);
     }
-    return;
+    return NULL;
   }
 
   // Get statuses to check for operations.
@@ -328,7 +338,7 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
     if ($value['confirmation_label'] == $operation) {
       // Check for permission.
       if (!user_access($value['add_permission'])) {
-        return;
+        return NULL;
       }
 
       // Switch operation machine name for label.
@@ -346,13 +356,14 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
         $embed->status = $operation;
         entity_save('embed_templates', $embed);
       }
-      return;
+      return NULL;
     }
   }
 
   // Otherwise, set an error message.
   drupal_set_message('Error performing bulk operation. ' . $operation . ' operation not found.', 'error');
   watchdog('embed_templates', 'Error performing bulk operation. ' . $operation . ' operation not found.');
+  return NULL;
 }
 
 /**
@@ -361,6 +372,7 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
  * @param $form_state
  * @param null $name
  * @param null $path
+ *
  * @return mixed
  * @internal param $form
  */

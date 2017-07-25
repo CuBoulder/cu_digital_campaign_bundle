@@ -97,9 +97,9 @@ function et_page_top_bottom_page_alter(&$page) {
 /**
  * Builds JS from embed template.
  *
- * @param $data
+ * @param array $data
  *   Unserialized data for the embed.
- * @param $type
+ * @param string $type
  *   Type associated to the data.
  *
  * @return string

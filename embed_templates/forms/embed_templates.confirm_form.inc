@@ -21,7 +21,7 @@ function embed_code_form_cancel($form, &$form_state) {
  * Form callback for confirming operations performed on embed entities.
  *
  * @param array $form
- *   Embed form prior to confirmation step
+ *   Embed form prior to confirmation step.
  * @param array $form_state
  *   Form state to check for embeds being deleted or updated.
  *

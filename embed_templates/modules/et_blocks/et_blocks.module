@@ -19,10 +19,10 @@ function et_blocks_block_info() {
   $embeds = embed_templates_get_embeds($options);
   $blocks = array();
 
-  foreach ($embeds as $key => $value) {
+  foreach ($embeds as $value) {
     // Add block with type and ID of entity.
     $blocks['et_blocks_' . $value->id] = array(
-      'info' => t('ET Block: ' . $value->name),
+      'info' => t('ET Block: :name', array(':name', $value->name)),
     );
   }
 
@@ -35,7 +35,7 @@ function et_blocks_block_info() {
  * @param string $delta
  *   Machine name of the block.
  *
- * @return array
+ * @return array|null
  *   Render array for the block.
  */
 function et_blocks_block_view($delta = '') {
@@ -48,7 +48,7 @@ function et_blocks_block_view($delta = '') {
 
     // If ID isn't numeric, then we can't do the query and need to return.
     if (!is_numeric($id[1])) {
-      return;
+      return NULL;
     }
 
     $options = array(
@@ -70,12 +70,12 @@ function et_blocks_block_view($delta = '') {
 /**
  * Takes a string and returns values between start and end.
  *
- * @param $string
+ * @param string $string
  *   String to manipulate
- * @param $start
+ * @param int $start
  *   Start of the characters to look for.
- * @param $end
- *  End of the characters to look for.
+ * @param int $end
+ *   End of the characters to look for.
  *
  * @return string
  *   String found between those two characters.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides a custom entity for adding embed codes to pages.
@@ -170,10 +171,10 @@ function embed_templates_permission() {
   $embed_types = embed_templates_get_embed_types();
   foreach ($embed_types as $key => $type) {
     $permissions['edit ' . $key . ' embeds'] = array(
-      'title' => t('Edit ' . $type['label'] . ' Embeds'),
+      'title' => t('Edit :type Embeds', array(':type' => $type['label'])),
     );
     $permissions['view ' . $key . ' embeds'] = array(
-      'title' => t('View ' . $type['label'] . ' Embeds'),
+      'title' => t('View :type Embeds', array(':type' => $type['label'])),
     );
   }
 
@@ -197,10 +198,14 @@ function embed_templates_permission() {
  *
  * Create a theme template for each embed type.
  *
- * @param $existing
- * @param $type
- * @param $theme
- * @param $path
+ * @param array $existing
+ *   An array of existing theme definitions.
+ * @param string $type
+ *   Whether a theme, module, etc. is being processed
+ * @param string $theme
+ *   Name of the thing being processed.
+ * @param string $path
+ *   The directory path of the theme or module
  *
  * @return array
  *   List of new theme definitions.
@@ -273,7 +278,7 @@ function embed_templates_get_embed_types() {
 /**
  * Return an embed type.
  *
- * @return array
+ * @return array|null
  *   Definition of a specific embed type if it exists.
  */
 function embed_templates_get_embed_type($type = NULL) {
@@ -281,7 +286,7 @@ function embed_templates_get_embed_type($type = NULL) {
   if ($type == NULL) {
     drupal_set_message('No embed type sent to query.', 'error');
     watchdog('embed_templates', 'No embed type sent to embed_templates_get_embed_type().');
-    return;
+    return NULL;
   }
 
   // Get all embed types.
@@ -303,8 +308,8 @@ function embed_templates_get_embed_type($type = NULL) {
  */
 function embed_templates_get_renderers() {
   $embed_types = embed_templates_get_embed_types();
-  return array_map(function ($a) {
-    return $a['renderer'];
+  return array_map(function ($arr) {
+    return $arr['renderer'];
   }, $embed_types);
 }
 
@@ -415,7 +420,7 @@ function _embed_templates_title_autocomplete($search) {
     ->range(0, 10)
     ->execute();
 
-  // Add results to JSON output. "Node path" => "node type: node title (node ID)"
+  // Add results to JSON output. "Node path" => "node type: node title (node ID)".
   foreach ($results as $result) {
     $matches['node/' . $result->nid] = check_plain($result->name . ': ' . $result->title . ' (' . $result->nid . ')');
   }
