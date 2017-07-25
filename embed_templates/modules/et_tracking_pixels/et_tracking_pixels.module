@@ -76,11 +76,14 @@ function et_tp_get_position_element($data = array()) {
 /**
  * Form values for Facebook tracking pixel.
  *
- * @param $form
- * @param $form_state
- * @param null $id
+ * @param array $form
+ *   Form containing default embed template form options.
+ * @param array $form_state
+ *   State of the default embed template form.
+ * @param int|null $id
+ *   ID of the current embed being edited if that embed exists.
  * @param array $data
- *   Unserialized data from the existing embed.
+ *   Data of the current embed if it is being edited.
  */
 function et_tp_facebook_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
@@ -111,11 +114,14 @@ function et_tp_facebook_form(&$form, &$form_state, $id = NULL, $data = array()) 
 /**
  * Form values for Facebook tracking pixel.
  *
- * @param $form
- * @param $form_state
- * @param null $id
+ * @param array $form
+ *   Form containing default embed template form options.
+ * @param array $form_state
+ *   State of the default embed template form.
+ * @param int|null $id
+ *   ID of the current embed being edited if that embed exists.
  * @param array $data
- *   Unserialized data from the existing embed.
+ *   Data of the current embed if it is being edited.
  */
 function et_tp_doubleclick_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
@@ -160,13 +166,16 @@ function et_tp_doubleclick_form(&$form, &$form_state, $id = NULL, $data = array(
 /**
  * Form values for Facebook tracking pixel.
  *
- * @param $form
- * @param $form_state
- * @param null $id
+ * @param array $form
+ *   Form containing default embed template form options.
+ * @param array $form_state
+ *   State of the default embed template form.
+ * @param int|null $id
+ *   ID of the current embed being edited if that embed exists.
  * @param array $data
- *   Unserialized data from the existing embed.
+ *   Data of the current embed if it is being edited.
  */
-function et_tp_twitter_form (&$form, &$form_state, $id = NULL, $data = array()) {
+function et_tp_twitter_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
   $form['options'] = array(
     '#type' => 'fieldset',

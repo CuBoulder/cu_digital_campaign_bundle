@@ -8,8 +8,10 @@
 /**
  * Callback for canceling addition of embeds.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   Empty form.
+ * @param array $form_state
+ *   Used to redirect user if they cancel confirmation.
  */
 function embed_code_form_cancel($form, &$form_state) {
   $form_state['redirect'] = 'admin/content/embeds';
@@ -18,10 +20,13 @@ function embed_code_form_cancel($form, &$form_state) {
 /**
  * Form callback for confirming operations performed on embed entities.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   Embed form prior to confirmation step.
+ * @param array $form_state
+ *   Form state to check for embeds being deleted or updated.
  *
  * @return array|mixed|null
+ *   The confirm form with names of embeds being operated on.
  */
 function embed_templates_confirm(&$form, &$form_state) {
   // Initialize default variables.
@@ -60,7 +65,7 @@ function embed_templates_confirm(&$form, &$form_state) {
       'items' => $embed_names,
       'title' => NULL,
       'type' => 'ul',
-      'attributes' => array()
+      'attributes' => array(),
     ));
 
     // Find confirmation label for operation.
@@ -87,5 +92,5 @@ function embed_templates_confirm(&$form, &$form_state) {
   }
 
   // Account for the case where somehow no embed entities made it to the confirm function.
-  return drupal_set_message(t('No embeds selected for operations. Please take appropriate action from the !link.', array('!link' => l('Embeds overview page', $path))), 'error');
+  return drupal_set_message(t('No embeds selected for operations. Please take appropriate action from the !link.', array('!link' => l(t('Embeds overview page'), $path))), 'error');
 }

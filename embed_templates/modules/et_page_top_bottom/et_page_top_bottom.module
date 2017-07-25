@@ -31,7 +31,7 @@ function et_page_top_bottom_context_plugins() {
     'handler' => array(
       'path' => drupal_get_path('module', 'et_page_top_bottom') . '/plugins',
       'file' => 'et_page_top_bottom_context_reaction.inc',
-      'class' => 'et_page_top_bottom_context_reaction',
+      'class' => 'EtPageTopBottomReaction',
       'parent' => 'context_reaction',
     ),
   );
@@ -97,9 +97,9 @@ function et_page_top_bottom_page_alter(&$page) {
 /**
  * Builds JS from embed template.
  *
- * @param $data
+ * @param array $data
  *   Unserialized data for the embed.
- * @param $type
+ * @param string $type
  *   Type associated to the data.
  *
  * @return string

@@ -23,6 +23,7 @@
  *       from the module root.
  *
  * @return array
+ *   An array with your custom embed definitions.
  */
 function hook_embed_templates_types() {
   $custom_embeds = array();
@@ -50,9 +51,10 @@ function hook_embed_templates_types_alter(&$types) {
   $types['my_pixel']['label'] = 'A Different Label';
 }
 
-
 /**
  * Add custom statuses for embeds.
+ *
+ * You need to return an array with the following keys.
  *
  * array $custom_status
  *   - label: The human-readable name of your status.
@@ -65,6 +67,7 @@ function hook_embed_templates_types_alter(&$types) {
  *       This should map to your hook_permission(). NULL if no permission needed.
  *
  * @return array
+ *   An array with your custom status definitions.
  */
 function hook_embed_templates_status() {
   $custom_status = array();

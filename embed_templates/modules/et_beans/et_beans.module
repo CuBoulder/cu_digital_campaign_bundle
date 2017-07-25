@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_ctools_plugin_api().\
+ * Implements hook_ctools_plugin_api().
  *
  * @return array
  *   Version of ctools API to use.
@@ -41,9 +41,9 @@ function et_beans_bean_admin_ui_types() {
 /**
  * Submission callback for plugins that use bean renderer.
  *
- * @param $embed
+ * @param object $embed
  *   Embed being edited.
- * @param $operation
+ * @param string $operation
  *   Operation being performed.
  *
  * @return null
@@ -51,7 +51,7 @@ function et_beans_bean_admin_ui_types() {
  */
 function et_beans_bean_form_submit($embed, $operation) {
   switch ($operation) {
-    case 'save' :
+    case 'save':
       // Save embed values to bean. Bean will have the same label as embed entity.
       if ($embed->name) {
         // Check to see if embed is new.
@@ -67,7 +67,7 @@ function et_beans_bean_form_submit($embed, $operation) {
         // Load bean and save with new label if embed already exists.
         if ($embed->id) {
           // Need to load old bean so can modify it.
-          $old_embed = db_query('SELECT * FROM {embed_templates} WHERE id = :id', array(':id'=> $embed->id))->fetchAssoc();
+          $old_embed = db_query('SELECT * FROM {embed_templates} WHERE id = :id', array(':id' => $embed->id))->fetchAssoc();
 
           // Load potential bean.
           if (isset($old_embed['name'])) {
@@ -83,16 +83,19 @@ function et_beans_bean_form_submit($embed, $operation) {
               $bean = bean_load($match->bid);
               $bean->label = $embed->name;
               bean_save($bean);
-            } else {
+            }
+            else {
               drupal_set_message('No bean found with ' . $old_embed['name'] . ' label. Associated bean was not updated.');
             }
-          } else {
+          }
+          else {
             drupal_set_message('No embed template found with ID of ' . $embed->id . ' . Associated bean was not updated.');
           }
         }
       }
       break;
-    case 'delete' :
+
+    case 'delete':
       // Need to load old bean so can modify it.
       $old_embed = entity_load_single('embed_templates', $embed->id);
 
@@ -130,7 +133,7 @@ function et_beans_form_bean_form_alter(&$form) {
  * Implements hook_inline_entity_form_table_fields_alter().
  *
  * @param array $entity_form
- *  Inline Entity Form being acted upon.
+ *   Inline Entity Form being acted upon.
  *
  * @internal param $form_state
  */
@@ -156,7 +159,7 @@ function et_beans_disable_form_elements(&$form) {
     '#weight' => -99,
   );
   $form['note']['explanation'] = array(
-    '#markup' => t('Embed Template beans can only be created or edited from the <a href="' . $base_url . '/admin/content/embeds">main Embed Template administration area.</a> The sole purpose of the bean entity is for placement.'),
+    '#markup' => t('Embed Template beans can only be created or edited from the <a href=":url/admin/content/embeds">main Embed Template administration area.</a> The sole purpose of the bean entity is for placement.', array(':url' => $base_url)),
   );
 }
 
@@ -191,7 +194,7 @@ function et_beans_preprocess_entity(&$vars) {
 function et_beans_entity_delete($entity, $type) {
   if ($type == 'bean' && $entity->type == 'et_beans_bean') {
     // Look for an embed entity with the same label.
-    $result = embed_templates_get_embeds($options = array('name' => array($entity->label)));
+    $result = embed_templates_get_embeds(array('name' => array($entity->label)));
 
     if ($result) {
       entity_delete_multiple('embed_templates', array_keys($result));

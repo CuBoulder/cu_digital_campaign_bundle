@@ -1,14 +1,15 @@
 <?php
+
 /**
  * @file
  * Installation and schema hooks for the embed_templates module.
  */
 
-
 /**
  * Implements hook_schema().
  *
  * @return array
+ *   An array of schemas to be added to the database.
  */
 function embed_templates_schema() {
   $schema = array();
@@ -63,4 +64,3 @@ function embed_templates_schema() {
   );
   return $schema;
 }
-

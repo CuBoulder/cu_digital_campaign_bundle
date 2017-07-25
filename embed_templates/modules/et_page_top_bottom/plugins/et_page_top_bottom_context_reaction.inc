@@ -8,15 +8,18 @@
 /**
  * Class et_page_top_bottom_context_reaction.
  */
-class et_page_top_bottom_context_reaction extends context_reaction {
+class EtPageTopBottomReaction extends context_reaction {
 
   /**
    * Provide form to enter embeds.
    *
-   * @param $context
+   * @param array $context
+   *   Current context array.
+   *
    * @return array
+   *   Added form options displayed to user on reaction screen.
    */
-  function options_form($context) {
+  public function options_form($context) {
     return array(
       'et_page_top_bottom' => array(
         '#type' => 'select',
@@ -30,19 +33,26 @@ class et_page_top_bottom_context_reaction extends context_reaction {
   /**
    * Capture selected embeds to send to execute function.
    *
-   * @param $values
+   * @param array $values
+   *   Values passed to the main Context form submit function.
+   *
    * @return array
+   *   The values you want passed with a certain key.
    */
-  function options_form_submit($values) {
+  public function options_form_submit($values) {
     return array('et_page_top_bottom' => $values['et_page_top_bottom']);
   }
 
   /**
    * Add embed code to page.
    *
+   * @param array $page
+   *   The page array before entering context reaction.
+   *
    * @return array
+   *   The page array after it has been passed through context reaction.
    */
-  function execute(&$page) {
+  public function execute(&$page) {
     foreach ($this->get_contexts() as $context) {
       if (!empty($context->reactions[$this->plugin])) {
 
@@ -71,8 +81,9 @@ class et_page_top_bottom_context_reaction extends context_reaction {
    * Get all published embeds and return as select list options.
    *
    * @return array
+   *   Options of embeds user can select. Might be empty.
    */
-  function getEmbeds() {
+  public function getEmbeds() {
     $options = array();
 
     // Get published embed names.
@@ -93,4 +104,5 @@ class et_page_top_bottom_context_reaction extends context_reaction {
     // Return no options if no published embeds.
     return $options;
   }
+
 }

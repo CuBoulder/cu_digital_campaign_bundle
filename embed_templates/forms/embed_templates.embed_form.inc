@@ -11,11 +11,15 @@ module_load_include('inc', 'embed_templates', 'forms/embed_templates.confirm_for
 /**
  * Form for adding embeds.
  *
- * @param $form
- * @param $form_state
- * @param null $embed_templates_id
+ * @param array $form
+ *   Empty form passed in to be built upon.
+ * @param array $form_state
+ *   State of form which might be in confirmation step.
+ * @param int|null $embed_templates_id
+ *   ID of embed if being edited or deleted.
  *
  * @return array
+ *   Fully built form ready to send to user.
  */
 function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
 
@@ -166,10 +170,13 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
 /**
  * Submit function for adding or editing an embed.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   Fully built form shown to user.
+ * @param array $form_state
+ *   Ste of form with user-entered values.
  *
  * @return mixed
+ *   Ends up redirecting user so nothing is really returned.
  */
 function embed_templates_form_submit(&$form, &$form_state) {
 
