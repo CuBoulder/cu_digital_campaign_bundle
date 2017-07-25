@@ -62,7 +62,7 @@ install:
   - cd ../../
 
   # Build Express Codebase
-  - git clone --branch dev git@github.com:CuBoulder/express.git express
+  - git clone --branch dev https://github.com/CuBoulder/express.git express
   - mv express drupal/profiles/
 
   # Move bundle to correct place.
