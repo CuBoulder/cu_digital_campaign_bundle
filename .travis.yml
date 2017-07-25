@@ -1,6 +1,8 @@
 language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
+# Need to use the Precise distro because of PHP 5.3
+dist: precise
 
 php:
   - '5.3'
@@ -48,18 +50,23 @@ install:
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../
 
-  # Build Codebase
+  # Build Drupal Codebase
   - drush dl drupal-7.56
   - mkdir drupal
   - mv drupal-7.56/* drupal/
-  - mkdir profiles
-  - mv express drupal/profiles/
 
   # Harden Codebase
   - cd drupal
   - cd modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  - cd ../..
+  - cd ../../
+
+  # Build Express Codebase
+  - git clone --branch dev git@github.com:CuBoulder/express.git express
+  - mv express drupal/profiles/
+
+  # Move bundle to correct place.
+  - mv cu_digital_campaign_bundle drupal/sites/all/modules/
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
@@ -71,8 +78,6 @@ install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 5
-
-  # Dummy comment.
 
   # Get Selenium
   - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
@@ -109,8 +114,8 @@ before_script:
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
 
-  # Enable all the bundles
-  # - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
+  # Enable bundle
+  - drush en cu_digital_campaign_bundle -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
