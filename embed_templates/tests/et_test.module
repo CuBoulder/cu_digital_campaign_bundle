@@ -70,7 +70,12 @@ function et_test_embed_templates_types() {
   return $custom_types;
 }
 
-
+/**
+ * Change the label of an embed type to see that the alter hook works.
+ *
+ * @param array $types
+ *   Different types of embed definitions to alter.
+ */
 function et_test_embed_templates_types_alter(&$types) {
   $types['alter_type']['label'] = 'Alter Hook Fun Time';
 }
@@ -103,6 +108,12 @@ function et_test_embed_templates_status() {
   return $custom_status;
 }
 
+/**
+ * Testing alter hook for status definitions.
+ *
+ * @param array $statuses
+ *   An array of status definitions.
+ */
 function et_test_embed_templates_status_alter(&$statuses) {
   $statuses['alter_status']['label'] = 'Alter Hooks Are Good';
 }
@@ -123,10 +134,14 @@ function et_permission() {
 /**
  * Form callback to capture data for placeholder template.
  *
- * @param $form
- * @param $form_state
- * @param null $id
+ * @param array $form
+ *   Form containing default embed template form options.
+ * @param array $form_state
+ *   State of the default embed template form.
+ * @param integer|null $id
+ *   ID of the current embed being edited if that embed exists.
  * @param array $data
+ *   Data of the current embed if it is being edited.
  */
 function et_test_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
@@ -149,10 +164,14 @@ function et_test_form(&$form, &$form_state, $id = NULL, $data = array()) {
 /**
  * Form callback to capture data for placeholder template.
  *
- * @param $form
- * @param $form_state
- * @param null $id
+ * @param array $form
+ *   Form containing default embed template form options.
+ * @param array $form_state
+ *   State of the default embed template form.
+ * @param integer|null $id
+ *   ID of the current embed being edited if that embed exists.
  * @param array $data
+ *   Data of the current embed if it is being edited.
  */
 function et_unthemed_page_form(&$form, &$form_state, $id = NULL, $data = array()) {
 

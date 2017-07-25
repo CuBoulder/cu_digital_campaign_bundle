@@ -8,10 +8,14 @@
 /**
  * Callback to generate form components for Slate Form embed type.
  *
- * @param $form
- * @param $form_state
- * @param null $id
+ * @param array $form
+ *   Form containing default embed template form options.
+ * @param array $form_state
+ *   State of the default embed template form.
+ * @param integer|null $id
+ *   ID of the current embed being edited if that embed exists.
  * @param array $data
+ *   Data of the current embed if it is being edited.
  */
 function et_slate_form_options(&$form, &$form_state, $id = NULL, $data = array()) {
 

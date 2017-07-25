@@ -8,10 +8,14 @@
 /**
  * Callback to generate form components for CU Presents embed type.
  *
- * @param $form
- * @param $form_state
- * @param null $id
+ * @param array $form
+ *   Contains the original embed form.
+ * @param array $form_state
+ *   The state of the original embed form.
+ * @param integer|null $id
+ *   ID of the embed entity
  * @param array $data
+ *   Data passed in of the old embed if it exists.
  */
 function et_cupresents_form_options(&$form, &$form_state, $id = NULL, $data = array()) {
 
@@ -45,7 +49,7 @@ function et_cupresents_form_options(&$form, &$form_state, $id = NULL, $data = ar
     'public_class' => 'Public Class',
     'camp' => 'Camp',
     'master_class' => 'Master Class',
-    'public_talk' =>'Public Talk',
+    'public_talk' => 'Public Talk',
   );
 
   $form['options']['performance_type'] = array(
@@ -114,5 +118,3 @@ function et_cupresents_embed_templates_types() {
 
   return $custom_types;
 }
-
-
