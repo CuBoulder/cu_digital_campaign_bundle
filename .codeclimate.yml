@@ -4,9 +4,6 @@ engines:
     config:
       file_extensions: "php,inc,module,install"
       rulesets: ".phpmd.xml"
-    checks:
-      Drupal Commenting FunctionComment TypeHintMissing:
-        enabled: false
   phpcodesniffer:
     enabled: true
     config:
@@ -14,6 +11,10 @@ engines:
       encoding: utf-8
       standard: "Drupal"
       ignore_warnings: true
+    checks:
+      # PHP 5.3 doesn't fully support type hinting.
+      Drupal Commenting FunctionComment TypeHintMissing:
+        enabled: false
 ratings:
   paths:
   - "*"
