@@ -5,7 +5,6 @@ engines:
       file_extensions: "php,inc,module,install"
       rulesets: ".phpmd.xml"
     checks:
-      # PHP 5.3 doesn't fully support type hinting.
       Drupal Commenting FunctionComment TypeHintMissing:
         enabled: false
   phpcodesniffer:
