@@ -46,7 +46,7 @@ class EtPageTopBottomReaction extends context_reaction {
   /**
    * Add embed code to page.
    *
-   * @param $page
+   * @param array $page
    *   The page array before entering context reaction.
    *
    * @return array

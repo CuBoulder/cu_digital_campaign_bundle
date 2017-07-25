@@ -12,8 +12,8 @@
  *   Contains the original embed form.
  * @param array $form_state
  *   The state of the original embed form.
- * @param integer|null $id
- *   ID of the embed entity
+ * @param int|null $id
+ *   ID of the embed entity.
  * @param array $data
  *   Data passed in of the old embed if it exists.
  */

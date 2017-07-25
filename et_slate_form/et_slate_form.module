@@ -12,7 +12,7 @@
  *   Form containing default embed template form options.
  * @param array $form_state
  *   State of the default embed template form.
- * @param integer|null $id
+ * @param int|null $id
  *   ID of the current embed being edited if that embed exists.
  * @param array $data
  *   Data of the current embed if it is being edited.

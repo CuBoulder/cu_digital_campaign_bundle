@@ -92,5 +92,5 @@ function embed_templates_confirm(&$form, &$form_state) {
   }
 
   // Account for the case where somehow no embed entities made it to the confirm function.
-  return drupal_set_message(t('No embeds selected for operations. Please take appropriate action from the !link.', array('!link' => t(l('Embeds overview page', $path)))), 'error');
+  return drupal_set_message(t('No embeds selected for operations. Please take appropriate action from the !link.', array('!link' => l(t('Embeds overview page'), $path))), 'error');
 }
