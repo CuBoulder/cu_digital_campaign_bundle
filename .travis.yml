@@ -62,6 +62,10 @@ install:
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../../
 
+
+  - ls -al $HOME/drupal
+  - ls -al $HOME/drupal/scripts
+
   # Build Express Codebase
   - git clone --branch dev https://github.com/CuBoulder/express.git express
   - mv express drupal/profiles/
