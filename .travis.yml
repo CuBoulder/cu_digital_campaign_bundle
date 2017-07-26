@@ -120,6 +120,7 @@ before_script:
   - chmod +x ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
   - ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
   #- drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
+  - cd ../../
 
   # Enable bundle
   - drush en cu_digital_campaign_bundle -y
