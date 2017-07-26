@@ -8,8 +8,8 @@ Feature: Digital Campaign Bundle
 
     Examples:
       | role            | message         |
-      | content_editor  | "Add Embeds"    |
       | site_owner      | "Add Embeds"    |
       | administrator   | "Add Embeds"    |
       | developer       | "Add Embeds"    |
       | edit_my_content | "Access Denied" |
+      | content_editor  | "Access Denied" |
