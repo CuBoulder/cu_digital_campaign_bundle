@@ -42,8 +42,8 @@ cache:
 
 install:
 
-  - ls -al ~/.phpenv/versions/$(phpenv version-name)/bin
-  - ls doof
+  #- ls -al ~/.phpenv/versions/$(phpenv version-name)/bin
+  #- ls doof
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
@@ -65,10 +65,6 @@ install:
   - cd modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../../
-
-  #- ls -al $HOME/build/CuBoulder
-  #- ls -al $HOME/drupal
-  #- ls -al $HOME/drupal/scripts
 
   # Build Express Codebase
   - git clone --branch dev https://github.com/CuBoulder/express.git express

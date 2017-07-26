@@ -5,7 +5,7 @@ cd ../../../../../../
 FOO=`pwd`
 echo "${OUTPUT}"
 
-OUTPUT=`php ./scripts/run-tests.sh --url http://127.0.0.1:8080 "Embed Templates"`
+OUTPUT=`php ./scripts/run-tests.sh --url http://127.0.0.1:8080 --php ~/.phpenv/versions/$(phpenv version-name)/bin/php "Embed Templates"`
 echo "${OUTPUT}"
 
 if [[ $OUTPUT == *"fail,"* ]]; then
