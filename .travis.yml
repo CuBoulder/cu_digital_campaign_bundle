@@ -42,7 +42,7 @@ cache:
 
 install:
 
-  - ls -al $HOME/.phpenv
+  - ls -al ~/.phpenv/versions/$(phpenv version-name)
   - ls doof
 
   # Install latest Drush 6.
