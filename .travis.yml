@@ -118,7 +118,7 @@ before_script:
   #- drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
 
   # Enable bundle
-  - drush en cu_digital_campaign_bundle -y
+  #- drush en cu_digital_campaign_bundle -y
 
   # Start server.
   #- drush runserver 127.0.0.1:8080 &
