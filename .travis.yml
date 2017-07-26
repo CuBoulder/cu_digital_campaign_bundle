@@ -63,6 +63,7 @@ install:
   - cd ../../
 
 
+  - ls -al $HOME
   - ls -al $HOME/drupal
   - ls -al $HOME/drupal/scripts
 
