@@ -52,7 +52,7 @@ install:
 
   # Build Behat dependencies
   - cd ./tests/behat
-  #- travis_retry composer install --prefer-dist --no-interaction
+  - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../
 
   # Build Drupal Codebase
@@ -61,10 +61,9 @@ install:
   - mv drupal-7.56/* drupal/
 
   # Harden Codebase
-  #- cd drupal
-  #- cd modules
-  #- rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  #- cd ../../
+  - cd drupal/modules
+  - rm -rf php
+  - cd ../../
 
   # Build Express Codebase
   - git clone --branch dev https://github.com/CuBoulder/express.git express
