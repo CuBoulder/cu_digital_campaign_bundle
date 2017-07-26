@@ -32,8 +32,9 @@ mysql:
 # Cache Composer & Drush directories.
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.composer/cache/files
     - $HOME/.drush/cache
+    - $HOME/cache
 
 # Order of operations is: before_install, install, before_script, script,
 # after_success or after_failure, OPTIONAL before_deploy, OPTIONAL deploy,
@@ -112,7 +113,11 @@ before_script:
   # Do the site install (either the current revision or old for the upgrade).
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
+  # Run script to check if Express hash has changed from last build and reinstall site if so. If not, then load site from cache.
+  - cd sites/all/modules/cu_digital_campiagn_bundle/tests/travis-ci
+  - chmod +x express-build.sh
+  - ./express-build.sh
+  #- drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
 
   # Enable bundle
   - drush en cu_digital_campaign_bundle -y
