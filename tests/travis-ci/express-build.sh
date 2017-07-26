@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
 # Get branch info for
-OUTPUT="$(git tag -l --sort=-taggerdate | grep 2 -m 1)"
+git fetch --tags
+OUTPUT="$(git describe --tags `git rev-list --tags --max-count=1`)"
 echo "${OUTPUT}"
