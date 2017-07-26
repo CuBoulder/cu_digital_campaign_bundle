@@ -140,6 +140,11 @@ script:
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
 
+  # Run Simpletests
+  - cd ../travis-ci
+  - chmod +x run-simpletests.sh
+  - ./run-simpletests.sh
+
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
