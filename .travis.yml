@@ -63,9 +63,9 @@ install:
   - cd ../../
 
 
-  - ls -al $HOME/build
-  - ls -al $HOME/drupal
-  - ls -al $HOME/drupal/scripts
+  #- ls -al $HOME/build/CuBoulder
+  #- ls -al $HOME/drupal
+  #- ls -al $HOME/drupal/scripts
 
   # Build Express Codebase
   - git clone --branch dev https://github.com/CuBoulder/express.git express
