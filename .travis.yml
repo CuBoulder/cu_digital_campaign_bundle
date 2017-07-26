@@ -118,7 +118,6 @@ before_script:
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   # Run script to check if Express hash has changed from last build and reinstall site if so. If not, then load site from cache.
-  #- cd sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci
   - cd profiles/express
   - git status
   - chmod +x ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
@@ -145,6 +144,7 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
 
   # Run Simpletests
+  - drush en simpletest -y
   - cd ../travis-ci
   - chmod +x run-simpletests.sh
   - ./run-simpletests.sh
