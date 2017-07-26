@@ -61,10 +61,10 @@ install:
   - mv drupal-7.56/* drupal/
 
   # Harden Codebase
-  - cd drupal
+  #- cd drupal
   #- cd modules
   #- rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  - cd ../../
+  #- cd ../../
 
   # Build Express Codebase
   - git clone --branch dev https://github.com/CuBoulder/express.git express
