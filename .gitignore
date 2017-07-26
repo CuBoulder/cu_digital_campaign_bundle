@@ -3,3 +3,7 @@
 
 # IntelliJ files
 *.idea
+
+vendor*
+bin*
+composer.lock
