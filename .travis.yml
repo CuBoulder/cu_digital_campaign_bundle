@@ -42,9 +42,6 @@ cache:
 
 install:
 
-  #- ls -al ~/.phpenv/versions/$(phpenv version-name)/bin
-  #- ls doof
-
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
@@ -62,7 +59,7 @@ install:
 
   # Harden Codebase
   - cd drupal/modules
-  - rm -rf php
+  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../../
 
   # Build Express Codebase
@@ -117,12 +114,8 @@ before_script:
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   # Run script to check if Express hash has changed from last build and reinstall site if so. If not, then load site from cache.
-  - cd profiles/express
-  - git status
-  - chmod +x ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
-  - ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
-  #- drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
-  - cd ../../
+  - chmod +x sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
+  - sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
 
   # Enable bundle
   - drush en cu_digital_campaign_bundle -y
@@ -143,10 +136,10 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
 
   # Run Simpletests
-  - drush en simpletest -y
-  - cd ../travis-ci
-  - chmod +x run-simpletests.sh
-  - ./run-simpletests.sh
+  #- drush en simpletest -y
+  #- cd ../travis-ci
+  #- chmod +x run-simpletests.sh
+  #- ./run-simpletests.sh
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
