@@ -171,10 +171,10 @@ function embed_templates_permission() {
   $embed_types = embed_templates_get_embed_types();
   foreach ($embed_types as $key => $type) {
     $permissions['edit ' . $key . ' embeds'] = array(
-      'title' => t('Edit :type Embeds', array(':type' => $type['label'])),
+      'title' => t('Edit !type Embeds', array('!type' => $type['label'])),
     );
     $permissions['view ' . $key . ' embeds'] = array(
-      'title' => t('View :type Embeds', array(':type' => $type['label'])),
+      'title' => t('View !type Embeds', array('!type' => $type['label'])),
     );
   }
 

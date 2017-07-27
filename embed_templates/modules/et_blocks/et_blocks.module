@@ -22,7 +22,7 @@ function et_blocks_block_info() {
   foreach ($embeds as $value) {
     // Add block with type and ID of entity.
     $blocks['et_blocks_' . $value->id] = array(
-      'info' => t('ET Block: :name', array(':name', $value->name)),
+      'info' => t('ET Block: ' . $value->name),
     );
   }
 
