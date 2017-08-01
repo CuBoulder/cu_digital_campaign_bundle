@@ -15,6 +15,10 @@ engines:
       # PHP 5.3 doesn't fully support type hinting.
       Drupal Commenting FunctionComment TypeHintMissing:
         enabled: false
+      Drupal NamingConventions ValidClassName StartWithCaptial:
+        enabled: false
+      Drupal NamingConventions ValidClassName NoUnderscores:
+        enabled: false
 ratings:
   paths:
   - "*"

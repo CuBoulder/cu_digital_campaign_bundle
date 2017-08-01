@@ -133,7 +133,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  - ./bin/behat --config behat.yml --verbose
 
   # Run Simpletests
   #- drush en simpletest -y
