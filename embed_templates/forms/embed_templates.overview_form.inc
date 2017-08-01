@@ -361,7 +361,7 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
 
   // Otherwise, set an error message.
   drupal_set_message('Error performing bulk operation. ' . $operation . ' operation not found.', 'error');
-  watchdog('embed_templates', 'Error performing bulk operation. :op operation not found.', array(':op' => $operation));
+  watchdog('embed_templates', 'Error performing bulk operation. @op operation not found.', array('@op' => $operation));
   return NULL;
 }
 

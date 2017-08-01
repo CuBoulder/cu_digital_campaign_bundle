@@ -8,7 +8,7 @@
 /**
  * Class et_page_top_bottom_context_reaction.
  */
-class EtPageTopBottomReaction extends context_reaction {
+class et_page_top_bottom_context_reaction extends context_reaction {
 
   /**
    * Provide form to enter embeds.

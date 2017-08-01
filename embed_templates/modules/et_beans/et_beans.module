@@ -159,7 +159,7 @@ function et_beans_disable_form_elements(&$form) {
     '#weight' => -99,
   );
   $form['note']['explanation'] = array(
-    '#markup' => t('Embed Template beans can only be created or edited from the <a href=":url/admin/content/embeds">main Embed Template administration area.</a> The sole purpose of the bean entity is for placement.', array(':url' => $base_url)),
+    '#markup' => t('Embed Template beans can only be created or edited from the <a href="!url/admin/content/embeds">main Embed Template administration area.</a> The sole purpose of the bean entity is for placement.', array('!url' => $base_url)),
   );
 }
 
