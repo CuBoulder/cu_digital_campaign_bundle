@@ -29,8 +29,9 @@ Feature: Digital Campaign Bundle
   @api @digital_campaign @embed_templates @javascript
   Scenario: Create An A/B test.
     Given  CU - I am logged in as a user with the "site_owner" role
-    When I enable the "cu_ab_test" module
-      And I am on "block/add/a-b-block"
+    # Enable module in .travis.yml since there is a memory exhaustion error.
+    # When I enable the "cu_ab_test" module
+    When I am on "block/add/a-b-block"
       And I fill in "Label" with "A/B Block"
       And I fill in "edit-field-block-option-und-0-field-block-und-0-target-id" with "Text Block A (1)"
       And I fill in "edit-field-block-option-und-0-field-percentage-und-0-value" with "100"

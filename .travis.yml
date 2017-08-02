@@ -133,6 +133,10 @@ before_script:
   - export BEHAT_PARAMS
 
 script:
+
+  # Test run uses the cu_ab_test module which isn't enabled by default with this bundle
+  - drush en cu_ab_test -y
+
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose
 
