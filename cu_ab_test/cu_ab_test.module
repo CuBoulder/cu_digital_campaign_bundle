@@ -143,7 +143,9 @@ function cu_ab_test_validate_percentages(array $form, array &$form_state) {
   // Add up all of the percentages.
   $counter = 0;
   foreach ($form_state['values']['field_block_option'][LANGUAGE_NONE] as $value) {
-    $counter += $value['field_percentage']['und'][0]['value'];
+   if (isset($value['field_percentage'][LANGUAGE_NONE][0]['value'])) {
+     $counter += $value['field_percentage'][LANGUAGE_NONE][0]['value'];
+   }
   }
 
   // If the final sum doesn't equal 100, then set error for user.
