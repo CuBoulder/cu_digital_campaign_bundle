@@ -206,10 +206,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       }
     }, 1000);';
 
-    print_r('waiting for AJAX');
     //$this->getSession()->evaluateScript($script);
     $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
-    print_r('done waiting for AJAX');
   }
 
   /**
@@ -470,22 +468,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     // Go to bean page.
     // Using vistPath() instead of visit() method since it adds base URL to relative path.
     $this->visitPath('block/' . $entity->delta);
-  }
-
-
-  /**
-   * @When /^I fill in block with the delta "(?P<title>(?:[^"]|\\")*)" for autocomplete field "(?P<field>(?:[^"]|\\")*)""$/
-   */
-  public function iCreateATextBlock($title, $content) {
-    // Load bean info needed in autocomplete field.
-
-
-    // Fill in actual autocomplete field.
-    $this->getSession()
-      ->getDriver()
-      ->getWebDriverSession()
-      ->element('xpath', $this->getSession()->getSelectorsHandler()->selectorToXpath('named_exact', array('field', $field)))
-      ->postValue(array('value' => array($text)));
   }
 
   /**
