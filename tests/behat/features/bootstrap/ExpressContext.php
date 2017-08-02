@@ -166,12 +166,26 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @AfterStep
    */
-  public function afterStep($event) {
-    if (isset($this->javascript) && $this->javascript && empty($this->iframe)) {
-      $text = $event->getStep()->getText();
-      if (preg_match('/(follow|press|click|submit|viewing|visit|reload|attach)/i', $text)) {
-        $this->iWaitForAjax();
+  public function afterStep($scope) {
+    if (0 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
       }
+      $this->iWaitForAjax();
+    }
+  }
+
+  /**
+   * @AfterStep
+   */
+  public function takeScreenShotAfterFailedStep($scope) {
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
     }
   }
 
@@ -181,7 +195,21 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Given I wait for AJAX
    */
   public function iWaitForAjax() {
-    $this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+
+    // Polling for the sake of my intern tests
+    $script = '
+    var interval = setInterval(function() {
+    console.log("checking");
+      if (document.readyState === "complete") {
+        clearInterval(interval);
+        done();
+      }
+    }, 1000);';
+
+    print_r('waiting for AJAX');
+    //$this->getSession()->evaluateScript($script);
+    $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    print_r('done waiting for AJAX');
   }
 
   /**
@@ -265,11 +293,19 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * @When /^I enable the "(?P<text>(?:[^"]|\\")*)" module$/
+   */
+  public function iEnableTheModule($text) {
+    module_enable(array($text));
+  }
+
+  /**
    * @Then /^I select autosuggestion option "([^"]*)"$/
    *
    * @param $text Option to be selected from autosuggestion
    * @throws \InvalidArgumentException
    */
+  // @todo Fix brokenness or use keystroke step on tests where this step was intended to go.
   public function selectAutosuggestionOption($text) {
     $session = $this->getSession();
     $element = $session->getPage()->find(
@@ -404,21 +440,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * @AfterStep
-   */
-  public function takeScreenShotAfterFailedStep($scope) {
-    if (99 === $scope->getTestResult()->getResultCode()) {
-      $driver = $this->getSession()->getDriver();
-      if (!($driver instanceof Selenium2Driver)) {
-        return;
-      }
-      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
-    }
-  }
-
-
-
-  /**
    * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/
    */
   public function imAtAWithTheTitle($content_type, $title) {
@@ -449,6 +470,42 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     // Go to bean page.
     // Using vistPath() instead of visit() method since it adds base URL to relative path.
     $this->visitPath('block/' . $entity->delta);
+  }
+
+
+  /**
+   * @When /^I fill in block with the delta "(?P<title>(?:[^"]|\\")*)" for autocomplete field "(?P<field>(?:[^"]|\\")*)""$/
+   */
+  public function iCreateATextBlock($title, $content) {
+    // Load bean info needed in autocomplete field.
+
+
+    // Fill in actual autocomplete field.
+    $this->getSession()
+      ->getDriver()
+      ->getWebDriverSession()
+      ->element('xpath', $this->getSession()->getSelectorsHandler()->selectorToXpath('named_exact', array('field', $field)))
+      ->postValue(array('value' => array($text)));
+  }
+
+  /**
+   * @When I write :text into field :field
+   */
+  public function iWriteIntoField2($text, $field) {
+    // This function is used to
+    $this->getSession()
+      ->getDriver()
+      ->getWebDriverSession()
+      ->element('xpath', $this->getSession()->getSelectorsHandler()->selectorToXpath('named_exact', array('field', $field)))
+      ->postValue(array('value' => array($text)));
+  }
+
+  /**
+   * @Given /^I manually press "([^"]*)"$/
+   */
+  public function iManuallyPress($key) {
+    $script = "jQuery.event.trigger({ type : 'keypress', key : '" . $key . "' });";
+    $this->getSession()->evaluateScript($script);
   }
 
   /*

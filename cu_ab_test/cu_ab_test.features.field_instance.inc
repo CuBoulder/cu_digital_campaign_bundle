@@ -151,8 +151,8 @@ function cu_ab_test_field_default_field_instances() {
     'label' => 'Percentage',
     'required' => 0,
     'settings' => array(
-      'max' => 99,
-      'min' => 1,
+      'max' => 100,
+      'min' => 0,
       'prefix' => '',
       'suffix' => '',
       'user_register_form' => FALSE,

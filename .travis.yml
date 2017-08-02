@@ -117,8 +117,9 @@ before_script:
   - chmod +x sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
   - sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
 
-  # Enable bundle
+  # Enable bundle and test module
   - drush en cu_digital_campaign_bundle -y
+  - drush en cu_dc_tests_bundle -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
