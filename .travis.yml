@@ -23,6 +23,7 @@ addons:
     - php5-gd
     # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
     - libssl1.0.0
+    - google-chrome-stable
 
 mysql:
   database: drupal
@@ -82,9 +83,10 @@ install:
 
   # Get Selenium
   - wget http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
-  #- wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip
-  #- unzip chromedriver_linux64.zip
-  - java -jar selenium-server-standalone-3.4.0.jar > /dev/null 2>&1 &
+  - wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip
+  - chmod +x chromedriver
+  - java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.4.0.jar > /dev/null 2>&1 &
   - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
 
   # Disable sendmail
