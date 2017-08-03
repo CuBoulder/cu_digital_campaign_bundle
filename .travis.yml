@@ -14,6 +14,7 @@ branches:
 
 # We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
 addons:
+  chrome: stable
   apt:
     packages:
     - curl
@@ -23,7 +24,6 @@ addons:
     - php5-gd
     # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
     - libssl1.0.0
-    - google-chrome-stable
 
 mysql:
   database: drupal
