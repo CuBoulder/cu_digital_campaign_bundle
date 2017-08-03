@@ -12,10 +12,6 @@ branches:
   only:
     - master
 
-language: java
-jdk:
-  - oraclejdk8
-
 # We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
 addons:
   chrome: stable
@@ -28,7 +24,6 @@ addons:
     - php5-gd
     # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
     - libssl1.0.0
-    - oracle-java8-installer
 
 mysql:
   database: drupal
@@ -87,10 +82,9 @@ install:
   - sleep 5
 
   # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
-  - wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux32.zip
-  - unzip chromedriver_linux32.zip
-  - chmod +x chromedriver
+  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
+  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
+  - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
 
   - java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.4.0.jar
   #- > /dev/null 2>&1 &
