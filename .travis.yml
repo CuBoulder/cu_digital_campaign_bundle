@@ -12,6 +12,7 @@ branches:
   only:
     - master
 
+language: java
 jdk:
   - oraclejdk8
 
