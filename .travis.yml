@@ -86,10 +86,6 @@ install:
   - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
   - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
 
-  - java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.4.0.jar
-  #- > /dev/null 2>&1 &
-  - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
-
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   # Add memcache, APC
