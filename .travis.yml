@@ -123,7 +123,10 @@ before_script:
   # Enable bundle.
   - drush en cu_digital_campaign_bundle -y
 
-  # Test module only for currently broken test.
+  # Test run uses the cu_ab_test module which isn't enabled by default with this bundle
+  - drush en cu_ab_test -y
+
+  # Test module for setup.
   - drush en cu_dc_bundle_tests -y
 
   # Start server.
@@ -138,9 +141,6 @@ before_script:
   - export BEHAT_PARAMS
 
 script:
-
-  # Test run uses the cu_ab_test module which isn't enabled by default with this bundle
-  - drush en cu_ab_test -y
 
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose
