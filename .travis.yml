@@ -115,10 +115,19 @@ before_script:
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   # Run script to check if Express hash has changed from last build and reinstall site if so. If not, then load site from cache.
   - chmod +x sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
-  - sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
+  # Run script from Express path to check Git status.
+  - cd profiles/express
+  - ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
+  - cd ../../
 
-  # Enable bundle
+  # Enable bundle.
   - drush en cu_digital_campaign_bundle -y
+
+  # Test run uses the cu_ab_test module which isn't enabled by default with this bundle
+  - drush en cu_ab_test -y
+
+  # Test module for setup.
+  - drush en cu_dc_bundle_tests -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -132,6 +141,7 @@ before_script:
   - export BEHAT_PARAMS
 
 script:
+
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose
 
