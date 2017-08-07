@@ -61,7 +61,8 @@ function cu_ab_test_secure_permissions($role) {
  * Implements hook_page_build().
  *
  * @param array $vars
- *   A whole slew of things that make up a render array for generating an A/B block.
+ *   A whole slew of things that make up a render array for generating an A/B
+ *   block.
  */
 function cu_ab_test_preprocess_entity(array &$vars) {
   if ($vars['elements']['#entity_type'] === 'bean' && $vars['elements']['#bundle'] === 'a_b_block') {
@@ -143,8 +144,8 @@ function cu_ab_test_validate_percentages(array $form, array &$form_state) {
   $counter = 0;
   foreach ($form_state['values']['field_block_option'][LANGUAGE_NONE] as $value) {
     if (isset($value['field_percentage'][LANGUAGE_NONE], $value['field_percentage'][LANGUAGE_NONE][0]['value'])) {
-     $counter += $value['field_percentage'][LANGUAGE_NONE][0]['value'];
-   }
+      $counter += $value['field_percentage'][LANGUAGE_NONE][0]['value'];
+    }
   }
 
   // If the final sum doesn't equal 100, then set error for user.
