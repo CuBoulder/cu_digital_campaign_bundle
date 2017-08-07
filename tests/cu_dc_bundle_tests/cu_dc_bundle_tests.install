@@ -5,7 +5,9 @@
  * Install content to be used later in tests.
  */
 
-
+/**
+ * Implements hook_install().
+ */
 function cu_dc_bundle_tests_install() {
   // Install text block beans.
   $beans[0] = array(
@@ -32,4 +34,18 @@ function cu_dc_bundle_tests_install() {
     );
     $bean->save();
   }
+}
+
+/**
+ * Implements hook_enable().
+ *
+ * Set block field autocomplete to be a select list.
+ */
+function cu_dc_bundle_tests_enable() {
+  $instance_info = field_info_instance('field_collection_item', 'field_block', 'field_block_option');
+
+  $instance_info['widget']['type'] = 'options_select';
+  $instance_info['widget']['module'] = 'options';
+
+  field_update_instance($instance_info);
 }
