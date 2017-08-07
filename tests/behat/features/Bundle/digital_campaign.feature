@@ -33,10 +33,10 @@ Feature: Digital Campaign Bundle
     # When I enable the "cu_ab_test" module
     When I am on "block/add/a-b-block"
       And I fill in "Label" with "A/B Block"
-      And I fill in "edit-field-block-option-und-0-field-block-und-0-target-id" with "Text Block A (1)"
+      And I fill in "edit-field-block-option-und-0-field-block-und-0-target-id" with "Text Block A (Text Block A) (1)"
       And I fill in "edit-field-block-option-und-0-field-percentage-und-0-value" with "100"
       And I press "Add another item"
-      And I fill in "edit-field-block-option-und-1-field-block-und-0-target-id" with "Text Block B (2)"
+      And I fill in "edit-field-block-option-und-1-field-block-und-0-target-id" with "Text Block B (Text Block B) (2)"
       And I fill in "edit-field-block-option-und-1-field-percentage-und-0-value" with "0"
     When I press "Save"
     Then I should see "A/B Block"

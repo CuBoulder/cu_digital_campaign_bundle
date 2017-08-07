@@ -123,7 +123,7 @@ before_script:
 
   # Enable bundle and test module
   - drush en cu_digital_campaign_bundle -y
-  - drush en cu_dc_tests_bundle -y
+  - drush en cu_dc_bundle_tests -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
