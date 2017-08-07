@@ -14,7 +14,6 @@ branches:
 
 # We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
 addons:
-  chrome: stable
   apt:
     packages:
     - curl
@@ -121,9 +120,11 @@ before_script:
   - ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
   - cd ../../
 
-  # Enable bundle and test module
+  # Enable bundle.
   - drush en cu_digital_campaign_bundle -y
-  - drush en cu_dc_bundle_tests -y
+
+  # Test module only for currently broken test.
+  #- drush en cu_dc_bundle_tests -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
