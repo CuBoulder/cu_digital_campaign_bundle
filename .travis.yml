@@ -124,7 +124,7 @@ before_script:
   - drush en cu_digital_campaign_bundle -y
 
   # Test module only for currently broken test.
-  #- drush en cu_dc_bundle_tests -y
+  - drush en cu_dc_bundle_tests -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
