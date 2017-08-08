@@ -43,6 +43,8 @@ cache:
 install:
 
   - echo $TRAVIS_COMMIT_MESSAGE
+  - echo $TRAVIS_COMMIT
+  - git log -1 --pretty=%B
   - dskjskjhsdkjh
 
   # Install latest Drush 6.
