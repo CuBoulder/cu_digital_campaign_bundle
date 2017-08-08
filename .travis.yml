@@ -45,7 +45,8 @@ install:
   - echo $TRAVIS_COMMIT_MESSAGE
   - echo $TRAVIS_COMMIT
   - git status
-  - git log -1 --pretty=%B
+  #- git log -1 --pretty=%B
+  - git log
   - dskjskjhsdkjh
 
   # Install latest Drush 6.
