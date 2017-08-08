@@ -44,7 +44,7 @@ install:
 
   - echo $TRAVIS_COMMIT_MESSAGE
   - echo $TRAVIS_COMMIT
-  - git statusq
+  - git status
   - git log -1 --pretty=%B
   - dskjskjhsdkjh
 
