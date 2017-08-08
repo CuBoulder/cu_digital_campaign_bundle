@@ -62,6 +62,7 @@ install:
   - mv express drupal/profiles/
 
   # Move bundle to correct place.
+  - ls -al
   - mv cu_digital_campaign_bundle drupal/sites/all/modules/
 
   # Copy Express testing stuff into bundle tests folder.
