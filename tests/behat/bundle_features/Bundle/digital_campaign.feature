@@ -37,6 +37,7 @@ Feature: Digital Campaign Bundle
       And I select "Text Block A (Text Block A)" from "field_block_option[und][0][field_block][und]"
       And I fill in "edit-field-block-option-und-0-field-percentage-und-0-value" with "100"
       And I press "Add another item"
+      And I wait 3 seconds
       #And I fill in "edit-field-block-option-und-1-field-block-und-0-target-id" with "Text Block B (Text Block B) (2)"
       And I select "Text Block B (Text Block B)" from "field_block_option[und][1][field_block][und]"
       And I fill in "edit-field-block-option-und-1-field-percentage-und-0-value" with "0"
