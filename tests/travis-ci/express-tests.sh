@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-# Check commit message for %&-no-express to skip test run.
+# Check commit message for !==express to skip test run.
