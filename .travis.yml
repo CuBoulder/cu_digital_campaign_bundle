@@ -48,6 +48,7 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Build Drupal Codebase
+  - cd ../
   - drush dl drupal-7.56
   - mkdir drupal
   - mv drupal-7.56/* drupal/
