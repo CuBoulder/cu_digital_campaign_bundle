@@ -42,11 +42,8 @@ cache:
 
 install:
 
-  - echo $TRAVIS_COMMIT_MESSAGE
-  - echo $TRAVIS_COMMIT
-  - git status
-  - git log -2 --pretty=%B | awk '/./{line=$0} END{print line}'
-  - dskjskjhsdkjh
+  - OUTPUTTT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==express' )"
+  - echo "${OUTPUTTT}"
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
@@ -147,8 +144,9 @@ script:
 
   # Run Behat tests if no exclude flag in commit message.
   - ls -al
-  - ../travis-ci
-  - ./bin/behat --config behat.yml --verbose
+  - chmod +x ../travis-ci/express-tests.sh
+  - ../travis-ci/express-tests.sh
+  #- ./bin/behat --config behat.yml --verbose
 
   # Enable bundle.
   - drush en cu_digital_campaign_bundle -y
