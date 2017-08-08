@@ -73,7 +73,7 @@ install:
   # Build Behat dependencies
   - cd drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
-  - cd $TRAVIS_BUILD_DIR
+  - cd -
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
