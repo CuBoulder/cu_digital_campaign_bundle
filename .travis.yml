@@ -65,7 +65,7 @@ install:
   - mv cu_digital_campaign_bundle drupal/sites/all/modules/
 
   # Copy Express testing stuff into bundle tests folder.
-  - cp -R drupal/profiles/express/tests/behat/features/* drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat/features
+  - cp -R drupal/profiles/express/tests/behat/features drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
   - cp drupal/profiles/express/tests/behat/behat.yml drupal/sites/all/modules/cu_digital_campaign_bundle/tests
 
   # Build Behat dependencies

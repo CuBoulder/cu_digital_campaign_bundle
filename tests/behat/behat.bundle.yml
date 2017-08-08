@@ -3,7 +3,7 @@ default:
     pretty: true
   suites:
     bundle:
-      paths: [ %paths.base%/features/Bundle]
+      paths: [ %paths.base%/bundle_features/Bundle]
       contexts:
         - ExpressContext
         - Drupal\DrupalExtension\Context\DrupalContext
