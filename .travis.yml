@@ -42,7 +42,7 @@ cache:
 
 install:
 
-  - OUTPUTTT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==express' )"
+  - OUTPUTTT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep "!==express" )"
   - echo "${OUTPUTTT}"
 
   # Install latest Drush 6.
