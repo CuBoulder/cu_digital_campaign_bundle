@@ -73,7 +73,7 @@ function cu_funnel_page_form($form, &$form_state) {
   $form['cu_funnel_pages'] = array(
     '#type' => 'textarea',
     '#title' => 'Paths',
-    '#default_value' => variable_get('cu_campaign_pages', ''),
+    '#default_value' => variable_get('cu_funnel_pages', ''),
     '#description' => 'Add a list of paths or urls. You can use the * character (asterisk) as a wildcard.',
   );
   $form = system_settings_form($form);
