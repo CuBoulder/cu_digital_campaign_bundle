@@ -42,6 +42,9 @@ cache:
 
 install:
 
+  - echo $TRAVIS_COMMIT_MESSAGE
+  - dskjskjhsdkjh
+
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
@@ -139,8 +142,9 @@ before_script:
 
 script:
 
-  # Run Behat tests.
+  # Run Behat tests if no exclude flag in commit message.
   - ls -al
+  - ../travis-ci
   - ./bin/behat --config behat.yml --verbose
 
   # Enable bundle.
