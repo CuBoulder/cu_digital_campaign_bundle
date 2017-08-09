@@ -47,12 +47,8 @@ install:
   - travis_retry composer global require "drush/drush:6.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # Build Behat dependencies
-  - cd ./tests/behat
-  - travis_retry composer install --prefer-dist --no-interaction
-  - cd ../../../
-
   # Build Drupal Codebase
+  - cd ../
   - drush dl drupal-7.56
   - mkdir drupal
   - mv drupal-7.56/* drupal/
@@ -67,7 +63,17 @@ install:
   - mv express drupal/profiles/
 
   # Move bundle to correct place.
+  - ls -al
   - mv cu_digital_campaign_bundle drupal/sites/all/modules/
+
+  # Copy Express testing stuff into bundle tests folder.
+  - cp -R drupal/profiles/express/tests/behat/features drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
+  - cp drupal/profiles/express/tests/behat/behat.yml drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
+
+  # Build Behat dependencies
+  - cd drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
+  - travis_retry composer install --prefer-dist --no-interaction
+  - cd -
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
@@ -120,15 +126,6 @@ before_script:
   - ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
   - cd ../../
 
-  # Enable bundle.
-  - drush en cu_digital_campaign_bundle -y
-
-  # Test run uses the cu_ab_test module which isn't enabled by default with this bundle
-  - drush en cu_ab_test -y
-
-  # Test module for setup.
-  - drush en cu_dc_bundle_tests -y
-
   # Start server.
   - drush runserver 127.0.0.1:8080 &
   - nc -zvv 127.0.0.1 8080; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8080..."; nc -zvv localhost 8080; out=$?; sleep 5; done
@@ -142,8 +139,23 @@ before_script:
 
 script:
 
-  # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose
+  # Run Behat tests if no exclude flag in commit message.
+  - ls -al
+  - chmod +x ../travis-ci/express-tests.sh
+  - ../travis-ci/express-tests.sh
+
+  # Enable bundle.
+  - drush en cu_digital_campaign_bundle -y
+
+  # Test run uses the cu_ab_test module which isn't enabled by default with this bundle
+  - drush en cu_ab_test -y
+
+  # Test module for setup.
+  - drush en cu_dc_bundle_tests -y
+
+  # Run bundle tests
+  - chmod +x ../travis-ci/bundle-tests.sh
+  - ../travis-ci/bundle-tests.sh
 
   # Run Simpletests
   #- drush en simpletest -y
