@@ -45,9 +45,6 @@ install:
   # Define bundle name so we can use as a placeholder later.
   - BUNDLE_NAME="cu_digital_campaign_bundle"
 
-  # Define test modules to be enabled later.
-  - TEST_MODULES="cu_ab_test cu_dc_bundle_tests"
-
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
@@ -154,7 +151,8 @@ script:
   - drush en $BUNDLE_NAME -y
 
   # Enable any additional modules used during test runs.
-  - drush en $TEST_MODULES -y
+  - drush en cu_ab_test -y
+  - drush en cu_dc_bundle_tests -y
 
   # Run bundle tests
   - chmod +x ../travis-ci/bundle-tests.sh
