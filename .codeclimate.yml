@@ -25,4 +25,5 @@ ratings:
 exclude_paths:
 - "**.scss"
 - "**.tpl.php"
+- "**.rb"
 - "tests/"
