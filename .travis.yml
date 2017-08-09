@@ -149,7 +149,6 @@ script:
   - ls -al
   - chmod +x ../travis-ci/express-tests.sh
   - ../travis-ci/express-tests.sh
-  #- ./bin/behat --config behat.yml --verbose
 
   # Enable bundle.
   - drush en cu_digital_campaign_bundle -y
@@ -161,7 +160,8 @@ script:
   - drush en cu_dc_bundle_tests -y
 
   # Run bundle tests
-  - ./bin/behat --config behat.bundle.yml --verbose
+  - chmod +x ../travis-ci/bundle-tests.sh
+  - ../travis-ci/bundle-tests.sh
 
   # Run Simpletests
   #- drush en simpletest -y
