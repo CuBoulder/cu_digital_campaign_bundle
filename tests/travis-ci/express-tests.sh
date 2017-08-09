@@ -6,7 +6,7 @@ OUTPUTTT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep !
 echo "${OUTPUTTT}"
 
 # If !==express is in the commit message, then don't run Express tests.
-if [ $(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep !==express) ]; then
+if [ ${OUTPUTTT} ]; then
   echo "found !==express"
 else
   echo "did not find it"
