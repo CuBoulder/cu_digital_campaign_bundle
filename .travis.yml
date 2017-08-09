@@ -42,6 +42,9 @@ cache:
 
 install:
 
+  # Define bundle name so we can use as a placeholder later.
+  - BUNDLE_NAME="cu_digital_campaign_bundle"
+
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
@@ -64,14 +67,14 @@ install:
 
   # Move bundle to correct place.
   - ls -al
-  - mv cu_digital_campaign_bundle drupal/sites/all/modules/
+  - mv $BUNDLE_NAME drupal/sites/all/modules/
 
   # Copy Express testing stuff into bundle tests folder.
-  - cp -R drupal/profiles/express/tests/behat/features drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
-  - cp drupal/profiles/express/tests/behat/behat.yml drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
+  - cp -R drupal/profiles/express/tests/behat/features drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
+  - cp drupal/profiles/express/tests/behat/behat.yml drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
 
   # Build Behat dependencies
-  - cd drupal/sites/all/modules/cu_digital_campaign_bundle/tests/behat
+  - cd drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
   - cd -
 
@@ -120,16 +123,16 @@ before_script:
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   # Run script to check if Express hash has changed from last build and reinstall site if so. If not, then load site from cache.
-  - chmod +x sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
+  - chmod +x sites/all/modules/$BUNDLE_NAME/tests/travis-ci/express-build.sh
   # Run script from Express path to check Git status.
   - cd profiles/express
-  - ../../sites/all/modules/cu_digital_campaign_bundle/tests/travis-ci/express-build.sh
+  - ../../sites/all/modules/$BUNDLE_NAME/tests/travis-ci/express-build.sh
   - cd ../../
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
   - nc -zvv 127.0.0.1 8080; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8080..."; nc -zvv localhost 8080; out=$?; sleep 5; done
-  - cd sites/all/modules/cu_digital_campaign_bundle/tests/behat
+  - cd sites/all/modules/$BUNDLE_NAME/tests/behat
 
   # Setting Behat environment
   - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
@@ -145,17 +148,17 @@ script:
   - ../travis-ci/express-tests.sh
 
   # Enable bundle.
-  - drush en cu_digital_campaign_bundle -y
+  - drush en $BUNDLE_NAME -y
 
-  # Test run uses the cu_ab_test module which isn't enabled by default with this bundle
+  # Enable any additional modules used during test runs.
   - drush en cu_ab_test -y
-
-  # Test module for setup.
   - drush en cu_dc_bundle_tests -y
 
   # Run bundle tests
-  - chmod +x ../travis-ci/bundle-tests.sh
-  - ../travis-ci/bundle-tests.sh
+  #- chmod +x ../travis-ci/bundle-tests.sh
+  #- ../travis-ci/bundle-tests.sh
+  # Script is broken for now so just run all tests.
+  - ./bin/behat --config behat.bundle.yml --verbose
 
   # Run Simpletests
   #- drush en simpletest -y

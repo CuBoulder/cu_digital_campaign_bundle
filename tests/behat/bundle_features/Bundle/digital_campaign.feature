@@ -14,7 +14,7 @@ Feature: Digital Campaign Bundle
       | edit_my_content | "Access Denied" |
       | content_editor  | "Access Denied" |
 
-  @api @digital_campaign @embed_templates @test
+  @api @digital_campaign @embed_templates
   Scenario: Create Tracking Pixel.
     Given  CU - I am logged in as a user with the "site_owner" role
       And I am on "admin/content/embeds/add/facebook"
