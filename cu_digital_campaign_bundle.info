@@ -24,5 +24,6 @@ optional-dependencies[] = et_blocks
 optional-dependencies[] = et_beans
 optional-dependencies[] = et_cupresents
 optional-dependencies[] = et_linkedin
+optional-dependencies[] = context_ui
 
 bundle_cache_clear = 1
