@@ -27,7 +27,7 @@ function et_linkedin_form_options(&$form, &$form_state, $id = NULL, $data = arra
 
   $form['options']['account_id'] = array(
     '#title' => t('Account ID'),
-    '#description' => t('The ID of your LinkedIn .'),
+    '#description' => t('The Partner ID of your LinkedIn account.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['account_id']) ? $data['account_id'] : '',
     '#required' => TRUE,
