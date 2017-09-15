@@ -14,5 +14,12 @@ dependencies[] = cu_funnel_page
 
 optional-dependencies[] = cu_ab_test
 optional-dependencies[] = et_slate_form
+optional-dependencies[] = et_slate_form_bean
+optional-dependencies[] = et_slate_form_block
+optional-dependencies[] = cu_funnel_page
+optional-dependencies[] = et_blocks
+optional-dependencies[] = et_beans
+optional-dependencies[] = et_cupresents
+optional-dependencies[] = et_linkedin
 
 bundle_cache_clear = 1

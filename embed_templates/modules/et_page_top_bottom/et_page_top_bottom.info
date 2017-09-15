@@ -3,6 +3,7 @@ description = Provides a way for users to place an embed at the top or bottom of
 core = 7.x
 package = Embed Templates
 dependencies[] = embed_templates
+dependencies[] = context_ui
 
 ; Information added by Drupal.org packaging script on 2017-07-27
 version = "7.x-1.0-beta3+7-dev"
