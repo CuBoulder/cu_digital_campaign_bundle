@@ -47,11 +47,11 @@ function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = a
     '#default_value' => !empty($data['creation']) ? $data['creation'] : '',
   );
 
-  $form['options']['url'] = array(
+  $form['options']['page_url'] = array(
     '#title' => t('URL'),
     '#description' => t('URL where tracking pixel will be added.'),
     '#type' => 'textfield',
-    '#default_value' => !empty($data['url']) ? $data['url'] : '',
+    '#default_value' => !empty($data['page_url']) ? $data['page_url'] : '',
   );
 
   $form['options']['type'] = array(
