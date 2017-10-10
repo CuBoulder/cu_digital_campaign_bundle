@@ -23,7 +23,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
   }
 
   /**
-   *  Perform steps to setup Drupal installation for test runs.
+   * Perform steps to setup Drupal installation for test runs.
    */
   public function setUp() {
 
@@ -89,7 +89,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
   /**
    * Creates a generic page with no embed codes on it.
    */
-  function setupNoEmbedsPage() {
+  private function setupNoEmbedsPage() {
     $node = new stdClass();
     $node->title = 'Embed codes page';
     $node->body = 'Some text.';
@@ -114,7 +114,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
   /**
    * Creates a generic page with no embed codes on it.
    */
-  function createEmbed($options = array()) {
+  private function createEmbed($options = array()) {
     $embed = entity_create('embed_templates', $options);
     entity_save('embed_templates', $embed);
   }
@@ -608,6 +608,95 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     // See that custom status label has changed via alter hook.
     $this->assertNoRaw('<option value="alter_status">Test Alter Hooks</option>', "Alter hook status label found.");
     $this->assertRaw('<option value="alter_status">Alter Hooks Are Good</option>', "Custom status label not found.");
+  }
+
+  /**
+   * Test that checks for a previous bug where empty values are being printed into templates.
+   */
+  public function testIsEmpty() {
+
+    // Create data without a second tracking action.
+    $data = 'a:1:{s:10:"account_id";s:6:"123456";}';
+
+    // Create Facebook pixel.
+    $options = array(
+      'name' => 'Is Empty',
+      'renderer' => 'page_top_bottom',
+      'type' => 'facebook',
+      'path' => 'node/1',
+      'status' => 'published',
+      'data' => $data,
+    );
+    $this->createEmbed($options);
+
+
+    // Go to page with tracking pixel on it.
+    $this->drupalGet('node/1');
+
+    // Shouldn't see an empty Facebook tracking action.
+    $this->assertNoRaw("fbq('track', '');", "No empty Facebook tracking action.");
+  }
+
+  /**
+   * Assert that an embed code isn't added to the page via Context when it is unpublished.
+   */
+  public function testUnpublishedContext() {
+    // Create data without a second tracking action.
+    $data = 'a:1:{s:10:"account_id";s:6:"123456";}';
+
+    // Create Facebook pixel.
+    $options = array(
+      'name' => 'Not Published',
+      'renderer' => 'page_top_bottom',
+      'type' => 'twitter',
+      'path' => '',
+      'status' => 'published',
+      'data' => $data,
+    );
+    $this->createEmbed($options);
+
+    // Add a context.
+    $context = new stdClass();
+    $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+    $context->api_version = 3;
+    $context->name = 'custom_pixel';
+    $context->description = '';
+    $context->tag = '';
+    $context->conditions = array(
+      'path' => array(
+        'values' => array(
+          'node/1' => 'node/1',
+        ),
+      ),
+    );
+    $context->reactions = array(
+      'et_page_top_bottom' => array(
+        'et_page_top_bottom' => '1',
+      ),
+    );
+    $context->condition_mode = 0;
+    context_save($context);
+
+    // Need to flush caches for Context to be active on node/1.
+    drupal_flush_all_caches();
+
+    // Go to page with tracking pixel on it.
+    $this->drupalGet('node/1');
+
+    // Assert tracking pixel code is rendered.
+    // Need to use raw since code is not visible.
+    $this->assertRaw("twq('init', '123456');", "Twitter ID found.");
+
+    // Change status to unpublished to make sure embed is not rendered.
+    $edit = array();
+    $edit['status'] = 'unpublished';
+    $this->drupalPost('admin/content/embeds/facebook/1/edit', $edit, t('Save'));
+
+    // Go to page with tracking pixel on it.
+    $this->drupalGet('node/1');
+
+    // Assert tracking pixel is not rendered.
+    $this->assertNoRaw("twq('init', '123456');", "Twitter ID found.");
   }
 
 }

@@ -59,16 +59,27 @@ class et_page_top_bottom_context_reaction extends context_reaction {
         $id = $context->reactions[$this->plugin]['et_page_top_bottom'];
         $embed = entity_load_single('embed_templates', $id);
 
+        // Don't view embed if it is unpublished.
+        if ($embed->status === 'unpublished') {
+          return null;
+        }
+
         $data = unserialize($embed->data);
         $type = $embed->type;
 
         $js = _et_page_top_bottom_get_js($data, $type);
 
         // Add weight based on position.
-        $weight = $data['position'] == 'top' ? -9999 : 9999;
+        // Set default to show at the bottom of the page.
+        $weight = 9999;
+        $position = 'bottom';
+        if (isset($data['position']) && $data['position'] === 'top') {
+          $weight = -9999;
+          $position = 'top';
+        }
 
         // Add JS to proper section of $page array.
-        $page['page_' . $data['position']]['et_page_top_bottom'][] = array(
+        $page['page_' . $position]['et_page_top_bottom'][] = array(
           '#markup' => $js,
           '#weight' => $weight,
         );

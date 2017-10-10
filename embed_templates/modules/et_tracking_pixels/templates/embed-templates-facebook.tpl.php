@@ -21,7 +21,7 @@
 
   fbq('init', '<?php print check_plain($variables['account_id']); ?>');
   fbq('track', 'PageView');
-  <?php if (isset($variables['action'])): ?>
+  <?php if (!empty($variables['action'])): ?>
   fbq('track', '<?php print check_plain($variables['action']); ?>');
   <?php endif; ?>
 </script>
