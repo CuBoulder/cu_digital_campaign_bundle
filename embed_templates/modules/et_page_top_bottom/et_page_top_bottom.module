@@ -81,11 +81,17 @@ function et_page_top_bottom_page_alter(&$page) {
         // Get JS for embed.
         $js = _et_page_top_bottom_get_js($data, $type);
 
-        // Ad weight based on position.
-        $weight = $data['position'] == 'top' ? -9999 : 9999;
+        // Add weight based on position.
+        // Set default to show at the bottom of the page.
+        $weight = 9999;
+        $position = 'bottom';
+        if (isset($data['position']) && $data['position'] === 'top') {
+          $weight = -9999;
+          $position = 'top';
+        }
 
         // Add JS to proper section of $page array.
-        $page['page_' . $data['position']]['et_page_top_bottom'][] = array(
+        $page['page_' . $position]['et_page_top_bottom'][] = array(
           '#markup' => $js,
           '#weight' => $weight,
         );
