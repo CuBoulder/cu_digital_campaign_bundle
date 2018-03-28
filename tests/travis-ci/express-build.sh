@@ -16,7 +16,7 @@ if [ ! -f $HOME/cache/latest-tag.txt ]; then
     echo "${OUTPUT}" >> $HOME/cache/latest-tag.txt
     echo "Latest tag saved."
 
-    drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
+    drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
     drush sql-dump --result-file=$HOME/cache/express.sql
     echo "Backup exported."
 
@@ -34,7 +34,7 @@ else
     else
         echo "Tags do not match."
 
-        drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
+        drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
         drush sql-dump --result-file=$HOME/cache/express.sql
         echo "Backup exported."
 
