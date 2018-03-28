@@ -135,7 +135,7 @@ script:
   #- chmod +x ../travis-ci/bundle-tests.sh
   #- ../travis-ci/bundle-tests.sh
   # Script is broken for now so just run all tests.
-  - ./bin/behat --config behat.bundle.yml --verbose
+  - ./bin/behat --config behat.bundle.yml --verbose --tags '@~broken'
 
   # Run Simpletests
   #- drush en simpletest -y
