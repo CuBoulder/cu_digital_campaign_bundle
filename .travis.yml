@@ -115,7 +115,7 @@ before_script:
   - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
   - cd tests/behat
 
-  # Setting Behat environment variables happens in behat.travis.yml for simplicity's sake.
+  # Setting Behat environment variables now happens in behat.travis.yml for simplicity's sake.
 
 script:
 
