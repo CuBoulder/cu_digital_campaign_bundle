@@ -2,7 +2,7 @@
 
 # Check commit message for !==express to skip test run.
 # Need to go two commit messages back because Travis merges PR branch into default branch.
-EXPRESS_COMMIT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep !==express)"
+EXPRESS_COMMIT="$(git log -1 --pretty=%B | awk '/./{line=$0} END{print line}' | grep !==express)"
 echo "${EXPRESS_COMMIT}"
 
 # If !==express is in the commit message, then don't run Express tests.
