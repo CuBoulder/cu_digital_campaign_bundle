@@ -43,16 +43,14 @@ install:
   - drush dl drupal-7.57
   - mkdir drupal
   - mv drupal-7.57/* drupal/
-  - mkdir profiles
-  - mv express drupal/profiles/
 
   # Harden Codebase
-  - cd drupal
-  - cd modules
+  - cd drupal/modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../../
 
   # Build Express Codebase
+  - mkdir profiles
   - git clone --branch dev https://github.com/CuBoulder/express.git express
   - mv express drupal/profiles/
 
