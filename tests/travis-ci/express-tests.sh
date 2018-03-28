@@ -12,5 +12,5 @@ if [ "${EXPRESS_COMMIT}" ]; then
 else
   echo "No keyword found."
   echo "Running Express tests."
-  ./bin/behat --config behat.yml --verbose  --tags "~@exclude_all_bundles&&~broken"
+  ./bin/behat --config behat.travis.yml --verbose  --tags "~@exclude_all_bundles&&~broken"
 fi
