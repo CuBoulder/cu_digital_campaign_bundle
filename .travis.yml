@@ -129,6 +129,7 @@ script:
   # Enable any additional modules used during test runs.
   - drush en cu_ab_test -y
   - drush en cu_dc_tests -y
+  - drush cc all
 
   # Run bundle tests
   #- chmod +x ../travis-ci/bundle-tests.sh
