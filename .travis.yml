@@ -7,7 +7,7 @@ php:
 
 branches:
   only:
-    - dev
+    - master
 
 addons:
   # The username and access key are stored in the Travis settings.
