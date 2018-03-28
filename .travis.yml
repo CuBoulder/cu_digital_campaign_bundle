@@ -61,7 +61,7 @@ install:
 
   # Copy Express testing stuff into bundle tests folder.
   - cp -R drupal/profiles/express/tests/behat/features drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
-  - cp drupal/profiles/express/tests/behat/behat.local.yml drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
+  - cp drupal/profiles/express/tests/behat/behat.travis.yml drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
 
   # Build Behat dependencies
   - cd drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
