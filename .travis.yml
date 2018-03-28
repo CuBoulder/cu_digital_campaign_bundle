@@ -143,7 +143,7 @@ script:
   #- chmod +x run-simpletests.sh
   #- ./run-simpletests.sh
 
-  # Output performance logging data.
+  # Output the performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 notifications:
