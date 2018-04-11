@@ -1,28 +1,17 @@
 language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
-# Need to use the Precise distro because of PHP 5.3
-dist: precise
 
 php:
-  - '5.3'
+  - '7.1'
 
-# We want builds of master and dev branches only.
 branches:
   only:
     - master
 
-# We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
 addons:
-  apt:
-    packages:
-    - curl
-    - php5-cgi
-    - php5-mysql
-    - php5-curl
-    - php5-gd
-    # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
-    - libssl1.0.0
+  # The username and access key are stored in the Travis settings.
+  sauce_connect: true
 
 mysql:
   database: drupal
@@ -32,7 +21,7 @@ mysql:
 # Cache Composer & Drush directories.
 cache:
   directories:
-    - $HOME/.composer/cache/files
+    - $HOME/.composer/cache
     - $HOME/.drush/cache
     - $HOME/cache
 
@@ -45,16 +34,16 @@ install:
   # Define bundle name so we can use as a placeholder later.
   - BUNDLE_NAME="cu_digital_campaign_bundle"
 
-  # Install latest Drush 6.
+  # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
-  - travis_retry composer global require "drush/drush:6.*"
+  - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # Build Drupal Codebase
+  # Build Codebase
   - cd ../
-  - drush dl drupal-7.56
+  - drush dl drupal-7.57
   - mkdir drupal
-  - mv drupal-7.56/* drupal/
+  - mv drupal-7.57/* drupal/
 
   # Harden Codebase
   - cd drupal/modules
@@ -62,6 +51,7 @@ install:
   - cd ../../
 
   # Build Express Codebase
+  - mkdir profiles
   - git clone --branch dev https://github.com/CuBoulder/express.git express
   - mv express drupal/profiles/
 
@@ -71,7 +61,7 @@ install:
 
   # Copy Express testing stuff into bundle tests folder.
   - cp -R drupal/profiles/express/tests/behat/features drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
-  - cp drupal/profiles/express/tests/behat/behat.yml drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
+  - cp drupal/profiles/express/tests/behat/behat.travis.yml drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
 
   # Build Behat dependencies
   - cd drupal/sites/all/modules/$BUNDLE_NAME/tests/behat
@@ -84,22 +74,8 @@ install:
   - mkdir tmp
   - chmod -R 777 tmp
 
-  # Setup display for Selenium
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 5
-
-  # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
-  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
-  - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
-
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  # Add memcache, APC
-  - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "apc.shm_size=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
   - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -117,34 +93,34 @@ before_script:
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
+  # Do the site install.
   - mysql -e 'create database drupal;'
-
-  # Do the site install (either the current revision or old for the upgrade).
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  # Run script to check if Express hash has changed from last build and reinstall site if so. If not, then load site from cache.
-  - chmod +x sites/all/modules/$BUNDLE_NAME/tests/travis-ci/express-build.sh
-  # Run script from Express path to check Git status.
-  - cd profiles/express
-  - ../../sites/all/modules/$BUNDLE_NAME/tests/travis-ci/express-build.sh
-  - cd ../../
+
+  # Cache build.
+  #- cd profiles/express
+  #- ./tests/travis-ci/build-express.sh
+  - cd sites/all/modules/$BUNDLE_NAME
+  - ./tests/travis-ci/express-build.sh
+
+  # Check and see if testing core module is enabled.
+  - drush pm-info travis_hosting
+  - drush pm-info cu_core
+  - drush pm-info cu_ldap
+  - drush pm-info ldap_authentication
 
   # Start server.
-  - drush runserver 127.0.0.1:8080 &
-  - nc -zvv 127.0.0.1 8080; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8080..."; nc -zvv localhost 8080; out=$?; sleep 5; done
-  - cd sites/all/modules/$BUNDLE_NAME/tests/behat
+  - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
+  - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
+  - cd tests/behat
 
-  # Setting Behat environment
-  - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
-  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080/","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
-  - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
-  - export BEHAT_PARAMS
+  # Setting Behat environment variables now happens in behat.travis.yml for simplicity's sake.
 
 script:
 
   # Run Behat tests if no exclude flag in commit message.
   - ls -al
-  - chmod +x ../travis-ci/express-tests.sh
   - ../travis-ci/express-tests.sh
 
   # Enable bundle.
@@ -153,12 +129,13 @@ script:
   # Enable any additional modules used during test runs.
   - drush en cu_ab_test -y
   - drush en cu_dc_tests -y
+  - drush cc all
 
   # Run bundle tests
   #- chmod +x ../travis-ci/bundle-tests.sh
   #- ../travis-ci/bundle-tests.sh
   # Script is broken for now so just run all tests.
-  - ./bin/behat --config behat.bundle.yml --verbose
+  - ./bin/behat --config behat.bundle.yml --verbose --tags '@~broken'
 
   # Run Simpletests
   #- drush en simpletest -y
@@ -166,7 +143,7 @@ script:
   #- chmod +x run-simpletests.sh
   #- ./run-simpletests.sh
 
-  # Output performance logging data.
+  # Output the performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 notifications:
