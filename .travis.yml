@@ -2,6 +2,9 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
+git:
+  depth: 1
+
 php:
   - '7.1'
 
@@ -21,7 +24,7 @@ mysql:
 # Cache Composer & Drush directories.
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.composer/cache/files
     - $HOME/.drush/cache
     - $HOME/cache
 
@@ -29,10 +32,18 @@ cache:
 # after_success or after_failure, OPTIONAL before_deploy, OPTIONAL deploy,
 # OPTIONAL after_deploy, after_script.
 
+before_install:
+
+  - echo $TRAVIS_BUILD_DIR
+  - echo $TRAVIS_BUILD_DIR
+  - cd skdjkdj
+
 install:
 
-  # Define bundle name so we can use as a placeholder later.
-  - BUNDLE_NAME="cu_digital_campaign_bundle"
+  # Export variables used later on in bash scripts.
+  - export TRAVIS_BUILD_DIR
+  - export TRAVIS_EVENT_TYPE
+  - export BUNDLE_NAME="cu_digital_campaign_bundle"
 
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
@@ -41,9 +52,10 @@ install:
 
   # Build Codebase
   - cd ../
-  - drush dl drupal-7.57
+  - drush cc drush
+  - drush dl drupal-7.58
   - mkdir drupal
-  - mv drupal-7.57/* drupal/
+  - mv drupal-7.58/* drupal/
 
   # Harden Codebase
   - cd drupal/modules
@@ -74,24 +86,7 @@ install:
   - mkdir tmp
   - chmod -R 777 tmp
 
-  # Disable sendmail
-  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Bump up max execution time.
-  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL connection timeout on the PHP end.
-  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL server timetout and packet size.
-  - mysql -e "SET GLOBAL wait_timeout = 36000;"
-  - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
-
 before_script:
-
-  # Disable XDebug to speed up test runs.
-  - phpenv config-rm xdebug.ini
 
   # Do the site install.
   - mysql -e 'create database drupal;'

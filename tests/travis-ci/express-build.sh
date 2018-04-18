@@ -3,7 +3,7 @@
 EXPRESS_COMMIT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
 echo "${EXPRESS_COMMIT}"
 
-# Build Express if no db export or commit is "merged into dev".
+# Build Express if no db export or commit has "===build" in the message.
 if [ ! -f $HOME/cache/express.sql ] || [  "${EXPRESS_COMMIT}" ]; then
 
   # Install site like normal.
