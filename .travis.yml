@@ -39,7 +39,7 @@ install:
 
   # Clone Express and copy scripts to root directory.
   - git clone --branch dev https://github.com/CuBoulder/express.git ${ROOT_DIR}/express
-  - cp ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
+  - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
 
   # Pulls in any helper functions used later in scripts.
   - source $ROOT_DIR/helper-functions.sh
