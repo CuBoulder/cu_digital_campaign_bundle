@@ -37,7 +37,7 @@ install:
   - export BUNDLE_NAME="cu_digital_campaign_bundle"
   - export ADD_MODULES="cu_ab_test cu_dc_tests"
 
-  # Clone Express and copy scripts to root directory.
+  # Clone Express and copy setup scripts to root directory.
   - git clone --branch dev https://github.com/CuBoulder/express.git ${ROOT_DIR}/express
   - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
 
