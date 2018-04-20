@@ -70,7 +70,7 @@ script:
   - $HOME/.composer/vendor/bin/drush en $ADD_MODULES -y
   - $HOME/.composer/vendor/bin/drush cc all
 
-  # Run Behat tests.
+  # Run Behat and bundle tests.
   - $ROOT_DIR/behat-tests.sh
 
 notifications:
