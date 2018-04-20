@@ -63,11 +63,12 @@ before_script:
 script:
 
   # Enable bundle.
-  - drush en $BUNDLE_NAME -y
+  - cd $ROOT_DIR/drupal
+  - $HOME/.composer/vendor/bin/drush en $BUNDLE_NAME -y
 
   # Enable any additional modules used during test runs.
-  - drush en $ADD_MODULES -y
-  - drush cc all
+  - $HOME/.composer/vendor/bin/drush en $ADD_MODULES -y
+  - $HOME/.composer/vendor/bin/drush cc all
 
   # Run Behat tests.
   - $ROOT_DIR/behat-tests.sh
