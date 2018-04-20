@@ -66,7 +66,7 @@ script:
   - drush en $BUNDLE_NAME -y
 
   # Enable any additional modules used during test runs.
-  - drush en $ADD_MODULES
+  - drush en $ADD_MODULES -y
   - drush cc all
 
   # Run Behat tests.
