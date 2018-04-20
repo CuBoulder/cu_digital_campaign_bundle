@@ -49,7 +49,7 @@ install:
 
   # Move bundle to right place after build step.
   - mkdir $ROOT_DIR/drupal/profiles/express/tests/behat/bundle_features
-  - cp -R $ROOT_DIR/$BUNDLE_NAME/tests/features/* $ROOT_DIR/drupal/profiles/express/tests/behat/bundle_features
+  - cp -R $ROOT_DIR/$BUNDLE_NAME/tests/behat/features/* $ROOT_DIR/drupal/profiles/express/tests/behat/bundle_features
   - mv $ROOT_DIR/$BUNDLE_NAME $ROOT_DIR/drupal/sites/all/modules/
 
 before_script:
