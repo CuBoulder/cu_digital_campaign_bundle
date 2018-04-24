@@ -36,6 +36,9 @@ install:
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="cu_digital_campaign_bundle"
   - export ADD_MODULES="cu_ab_test cu_dc_tests"
+  - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@bundle_conflict&&@javascript"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript&&~@campus_map_bundle_conflict"
+  - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Clone Express and copy setup scripts to root directory.
   - git clone --branch dev https://github.com/CuBoulder/express.git ${ROOT_DIR}/express
