@@ -10,7 +10,7 @@ php:
 
 branches:
   only:
-    - dev
+    - master
 
 addons:
   # The username and access key are stored in the Travis settings.
@@ -31,11 +31,18 @@ cache:
 install:
 
   # Export variables used later on in bash scripts.
+  # Travis variables.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export HOME
   - export TRAVIS_EVENT_TYPE
+
+  # Name of bundle used as a placeholder in scripts.
   - export BUNDLE_NAME="cu_digital_campaign_bundle"
+
+  # Extra modules that need to be enabled but aren't by default.
   - export ADD_MODULES="cu_ab_test cu_dc_tests"
+
+  # Behat tags. Allows you to include/exclude tags per bundle as needed.
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@bundle_conflict&&@javascript"
   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"

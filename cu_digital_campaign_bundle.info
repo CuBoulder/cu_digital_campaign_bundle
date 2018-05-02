@@ -5,7 +5,6 @@ package = CU-Digital Campaign
 version = 7.x-1.3
 project = cu_digital_campaign_bundle
 project status url = https://github.com/CuBoulder/cu_digital_campaign_bundle
-bundle_group = beta_bundles
 
 stylesheets[all][] = css/icons.css
 stylesheets[all][] = css/search-form.css
