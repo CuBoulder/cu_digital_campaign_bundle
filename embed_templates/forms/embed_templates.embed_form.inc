@@ -35,6 +35,7 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
   $data = array();
   $embed_templates = NULL;
   $id = NULL;
+  $size = variable_get('et_form_field_size', 128);
 
   // Load embed if it exists.
   if ($embed_templates_id != NULL && $embed_templates = entity_load_single('embed_templates', $embed_templates_id)) {
@@ -73,6 +74,7 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
     '#type' => 'textfield',
     '#default_value' => $label,
     '#required' => TRUE,
+    '#size' => $size,
   );
 
   // Search field for existing paths.
@@ -82,6 +84,7 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
     '#type' => 'textfield',
     '#autocomplete_path' => 'titles/autocomplete',
     '#default_value' => $path,
+    '#size' => $size,
   );
 
   // Get all status options.

@@ -1,9 +1,0 @@
-name = Embed Templates - CU Presents
-description = Provides a bean to embed the CU Presents calendar on a site.
-core = 7.x
-package = Embed Templates
-
-stylesheets[all][] = css/block-wrapper.css
-
-dependencies[] = embed_templates
-dependencies[] = et_beans
