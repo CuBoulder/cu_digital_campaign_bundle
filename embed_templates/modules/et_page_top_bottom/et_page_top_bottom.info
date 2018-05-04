@@ -5,8 +5,8 @@ package = Embed Templates
 dependencies[] = embed_templates
 
 ; Information added by Drupal.org packaging script on 2017-10-10
-version = "7.x-1.0-beta4"
+version = "7.x-1.0-beta4+0-dev"
 core = "7.x"
 project = "embed_templates"
-datestamp = "1507662246"
+datestamp = "1507661947"
 

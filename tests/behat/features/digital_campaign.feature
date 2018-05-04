@@ -16,7 +16,7 @@ Feature: Digital Campaign Bundle
       | content_editor  | "Access Denied" |
 
   @embed_templates
-  Scenario: Create Tracking Pixel.
+  Scenario: Create a Facebook tracking pixel.
     Given  I am logged in as a user with the "site_owner" role
       And I am on "admin/content/embeds/add/facebook"
       And I fill in "Label" with "Facebook Tracking Pixel"
@@ -26,6 +26,10 @@ Feature: Digital Campaign Bundle
     When I press "Save"
       And I am on "node/1"
     Then the response should contain "https://www.facebook.com/tr?id=123456&ev=PageView&noscript=1"
+
+  @embed_templates
+  Scenario: Create a Facebook tracking pixel.
+    Given  I am logged in as a user with the "site_owner" role
 
   @embed_templates @javascript @broken
   # Turning the autocomplete field into a select list doesn't work like on my local...
