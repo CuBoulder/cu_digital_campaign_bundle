@@ -48,7 +48,7 @@ install:
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Clone Express and copy setup scripts to root directory.
-  - git clone --branch dev https://github.com/CuBoulder/express.git ${ROOT_DIR}/express
+  - git clone --branch feature/2279 https://github.com/CuBoulder/express.git ${ROOT_DIR}/express
   - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
 
   # Pulls in any helper functions used later in scripts.
@@ -56,11 +56,6 @@ install:
 
   # Install and build dependencies.
   - $ROOT_DIR/install.sh
-
-  # Move bundle to right place after build step.
-  - mkdir $ROOT_DIR/drupal/profiles/express/tests/behat/bundle_features
-  - cp -R $ROOT_DIR/$BUNDLE_NAME/tests/behat/features/* $ROOT_DIR/drupal/profiles/express/tests/behat/bundle_features
-  - mv $ROOT_DIR/$BUNDLE_NAME $ROOT_DIR/drupal/sites/all/modules/
 
 before_script:
 
@@ -71,14 +66,6 @@ before_script:
   - $ROOT_DIR/build-express.sh
 
 script:
-
-  # Enable bundle.
-  - cd $ROOT_DIR/drupal
-  - $HOME/.composer/vendor/bin/drush en $BUNDLE_NAME -y
-
-  # Enable any additional modules used during test runs.
-  - $HOME/.composer/vendor/bin/drush en $ADD_MODULES -y
-  - $HOME/.composer/vendor/bin/drush cc all
 
   # Run Behat and bundle tests.
   - $ROOT_DIR/behat-tests.sh
