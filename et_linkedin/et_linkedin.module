@@ -42,7 +42,7 @@ function et_linkedin_form_options(&$form, &$form_state, $id = NULL, $data = arra
   );
 
   $form['options']['position'] = array(
-    '#title' => t('Location'),
+    '#title' => t('Position'),
     '#type' => 'select',
     '#options' => $position_options,
     '#description' => t('Choose where on the page the embed is placed. Look at the embed code instructions to determine where it should be placed.'),

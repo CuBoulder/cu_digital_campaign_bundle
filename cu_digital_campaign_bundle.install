@@ -8,10 +8,10 @@ function cu_digital_campaign_bundle_enable() {
   secure_permissions_build_roles();
   $campaign_manager_role = user_role_load_by_name('campaign_manager');
 
-  $invite_roles = variable_get('user_external_invite_roles', array());
+  $invite_roles = variable_get('user_external_invite_addon_roles', array());
   $invite_roles[] = $campaign_manager_role->rid;
 
-  variable_set('user_external_invite_roles', $invite_roles);
+  variable_set('user_external_invite_addon_roles', $invite_roles);
 }
 
 /**
@@ -29,8 +29,8 @@ function cu_digital_campaign_bundle_update_7002() {
   secure_permissions_build_roles();
   $campaign_manager_role = user_role_load_by_name('campaign_manager');
 
-  $invite_roles = variable_get('user_external_invite_roles', array());
+  $invite_roles = variable_get('user_external_invite_addon_roles', array());
   $invite_roles[] = $campaign_manager_role->rid;
 
-  variable_set('user_external_invite_roles', $invite_roles);
+  variable_set('user_external_invite_addon_roles', $invite_roles);
 }
