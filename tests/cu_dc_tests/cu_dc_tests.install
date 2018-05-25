@@ -34,6 +34,8 @@ function cu_dc_tests_install() {
     );
     $bean->save();
   }
+
+  _cu_dc_tests_add_users();
 }
 
 /**
@@ -48,4 +50,42 @@ function cu_dc_tests_enable() {
   $instance_info['widget']['module'] = 'options';
 
   field_update_instance($instance_info);
+}
+
+
+/**
+ * Creates users needed for test runs.
+ */
+function _cu_dc_tests_add_users() {
+
+  // List needed users.
+  $users = array(
+    'campaign_manager',
+  );
+
+  // Create users.
+  foreach ($users as $user_name) {
+    // For some reason, I ran into the issue where the same user was created multiple times.
+    // If user exists, skip creation.
+    if (user_load_by_name($user_name)) {
+      continue;
+    }
+
+    // Get role ID.
+    $role = user_role_load_by_name($user_name);
+    $new_user = array(
+      'name' => $user_name,
+      'pass' => $user_name,
+      'mail' => 'noreply@nowhere.com',
+      'status' => 1,
+      'init' => 'noreply@nowhere.com',
+      'roles' => array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        $role->rid => $user_name,
+      ),
+    );
+
+    // The first parameter is sent blank so a new user is created.
+    user_save('', $new_user);
+  }
 }
