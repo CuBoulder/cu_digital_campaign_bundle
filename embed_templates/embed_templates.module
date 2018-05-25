@@ -247,7 +247,8 @@ function embed_templates_get_embeds($conditions = array(), $sortable_header = NU
   if ($sortable_header) {
     $query = db_select('embed_templates', 'tp')->extend('TableSort');
     $query->orderByHeader($sortable_header);
-  } else {
+  }
+  else {
     $query = db_select('embed_templates', 'tp');
   }
 

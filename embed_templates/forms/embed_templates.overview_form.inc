@@ -43,14 +43,17 @@ function embed_templates_overview_form($form, &$form_state) {
     'author' => array('data' => t('Author'), 'field' => 'tp.author'),
     'renderer' => array('data' => t('Renderer'), 'field' => 'tp.renderer'),
     'path' => array('data' => t('Path'), 'field' => 'tp.path'),
-    'status' => array('data' => t('Status'), 'field' => 'tp.status'),
+    'status' => array(
+      'data' => t('Status'), 
+      'field' => 'tp.status',
+    ),
     'updated' => array('data' => t('Updated'), 'field' => 'tp.updated', 'sort' => 'desc'),
     'edit' => array('data' => t('Edit')),
   );
 
   // If search has been performed, then return embeds from the search.
   if (isset($form_state['storage']['search_embeds'])) {
-    $embed_ids = array_map(function($value) {
+    $embed_ids = array_map(function ($value) {
       return $value->id;
     }, $form_state['storage']['search_embeds']);
 
