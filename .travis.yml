@@ -48,7 +48,7 @@ install:
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Clone Express and copy setup scripts to root directory.
-  - git clone --branch feature/2279 https://github.com/CuBoulder/express.git ${ROOT_DIR}/express
+  - git clone --branch dev https://github.com/CuBoulder/express.git ${ROOT_DIR}/express
   - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
 
   # Pulls in any helper functions used later in scripts.
