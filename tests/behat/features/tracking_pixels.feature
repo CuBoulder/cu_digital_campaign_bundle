@@ -45,7 +45,7 @@ Feature: Create and edit tracking pixel embeds.
       And I am on "node/1"
     Then the response should contain "twq('init', '456789');"
       And the response should contain "twq('track', 'PageView');"
-      And the response should contain "twq('track', 'act_three');"
+    And the response should contain "twq('track', 'activity_nine');"
 
 
   @tracking_pixels
