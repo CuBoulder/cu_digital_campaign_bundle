@@ -19,6 +19,8 @@
  */
 function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = array()) {
 
+  $size = variable_get('et_form_field_size', 128);
+
   $form['options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embed Data'),
@@ -31,6 +33,7 @@ function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = a
     '#type' => 'textfield',
     '#default_value' => !empty($data['account_id']) ? $data['account_id'] : '',
     '#required' => TRUE,
+    '#size' => $size,
   );
 
   $form['options']['activity'] = array(
@@ -38,6 +41,7 @@ function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = a
     '#description' => t('Activity name of this tag.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['activity']) ? $data['activity'] : '',
+    '#size' => $size,
   );
 
   $form['options']['creation'] = array(
@@ -45,6 +49,7 @@ function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = a
     '#description' => t('Creation date of this campaign.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['creation']) ? $data['creation'] : '',
+    '#size' => $size,
   );
 
   $form['options']['page_location'] = array(
@@ -52,6 +57,7 @@ function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = a
     '#description' => t('URL where tracking pixel will be added.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['page_location']) ? $data['page_location'] : '',
+    '#size' => $size,
   );
 
   $form['options']['type'] = array(
@@ -59,6 +65,7 @@ function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = a
     '#description' => t('Type of campaign.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['type']) ? $data['type'] : '',
+    '#size' => $size,
   );
 
   $form['options']['category'] = array(
@@ -66,6 +73,7 @@ function cu_doubleclick_form_options(&$form, &$form_state, $id = NULL, $data = a
     '#description' => t('Category of campaign.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['category']) ? $data['category'] : '',
+    '#size' => $size,
   );
 
   $position_options = array(
