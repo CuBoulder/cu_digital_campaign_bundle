@@ -86,6 +86,8 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'unpublish embeds',
       'delete embeds',
       'assign campaign_manager role',
+      'edit users with role campaign_manager',
+      'cancel users with role campaign_manager'
     ),
     'site_owner' => array(
       'administer embed templates',
@@ -111,6 +113,8 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'unpublish embeds',
       'delete embeds',
       'assign campaign_manager role',
+      'edit users with role campaign_manager',
+      'cancel users with role campaign_manager'
     ),
     'administrator' => array(
       'administer embed templates',
@@ -136,6 +140,8 @@ function cu_digital_campaign_bundle_secure_permissions($role) {
       'unpublish embeds',
       'delete embeds',
       'assign campaign_manager role',
+      'edit users with role campaign_manager',
+      'cancel users with role campaign_manager'
     ),
     'anonymous user' => array(
       'view et_slate_form_bean embeds',
