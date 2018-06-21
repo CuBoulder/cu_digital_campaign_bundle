@@ -1,10 +1,11 @@
 name = Digital Campaign
-description = Allows for Campaign Managers to perform marketing functionality on the site.
+description = Features specifically for paid digital advertising campaigns giving the ability to place pixel tracking codes and funnel pages.
 core = 7.x
 package = CU-Digital Campaign
 version = 7.x-1.3
 project = cu_digital_campaign_bundle
 project status url = https://github.com/CuBoulder/cu_digital_campaign_bundle
+project_demo_url = http://www.colorado.edu/webcentral/node/1540
 
 stylesheets[all][] = css/icons.css
 stylesheets[all][] = css/search-form.css
