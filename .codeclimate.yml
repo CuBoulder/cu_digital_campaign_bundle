@@ -1,9 +1,14 @@
-engines:
+version: "2"
+plugins:
   phpmd:
     enabled: true
     config:
       file_extensions: "php,inc,module,install"
       rulesets: ".phpmd.xml"
+  phan:
+    enabled: true
+    config:
+      file_extensions: "php"
   phpcodesniffer:
     enabled: true
     config:
@@ -19,10 +24,7 @@ engines:
         enabled: false
       Drupal NamingConventions ValidClassName NoUnderscores:
         enabled: false
-ratings:
-  paths:
-  - "*"
-exclude_paths:
+exclude_patterns:
 - "**.scss"
 - "**.tpl.php"
 - "**.rb"
