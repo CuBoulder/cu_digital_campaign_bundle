@@ -27,3 +27,8 @@ optional-dependencies[] = et_linkedin
 optional-dependencies[] = context_ui
 
 bundle_cache_clear = 1
+
+bundle_roles[] = developer
+bundle_roles[] = administrator
+bundle_roles[] = site_owner
+bundle_roles[] = configuration_manager
